@@ -38,7 +38,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		isRunning = true;
 	}
 	player = new GameObject(".//assets//player.png",0,0);
-	enemy = new GameObject(".//assets//enemy.png", 50, 50);
+	enemy = new GameObject("Resoure Files/enemy.png", 50, 50);
 	map = new Map();
 }
 

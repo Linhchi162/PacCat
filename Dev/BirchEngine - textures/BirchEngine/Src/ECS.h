@@ -25,4 +25,3 @@ template <typename T> inline ComponentID getComponentID() noexcept
 	return typeID();
 }
 
-constexpr Com
