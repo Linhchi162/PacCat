@@ -16,9 +16,9 @@ public:
 	void render();
 	void clean();
 
+	static SDL_Renderer* renderer;
 private:
 	bool isRunning = false;
 	int cnt = 0;
 	SDL_Window* window;
-	SDL_Renderer* renderer;
 };

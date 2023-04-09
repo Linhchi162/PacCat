@@ -1,6 +1,12 @@
 #include "Game.h"
+#include "TextureManager.h"
+#include "GameObject.h"
+#include"Map.h"
+GameObject* player;
+GameObject* enemy;
+Map* map;
 
-SDL_Texture* playerTex;
+SDL_Renderer* Game::renderer = nullptr;
 
 Game::Game()
 {}
@@ -28,9 +34,9 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 		isRunning = true;
 	}
-	SDL_Surface* tmpsurface = IMG_Load(".//assets//Player.png");
-	playerTex = SDL_CreateTextureFromSurface(renderer, tmpsurface);
-	SDL_FreeSurface(tmpsurface);
+	player = new GameObject(".//assets//Player.png", 0, 0);
+	enemy = new GameObject(".//assets//enemy.png", 50, 50);
+	map = new Map();
 }
 
 void Game::handleEvents()
@@ -51,14 +57,16 @@ void Game::handleEvents()
 
 void Game::update()
 {
-	cnt++;
-	std::cout << cnt << std::endl;
+	player->Update();
+	enemy->Update();
 }
 
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, playerTex, NULL, NULL);
+	map->DrawMap();
+	player->Render();
+	enemy->Render();
 	SDL_RenderPresent(renderer);
 }
 
