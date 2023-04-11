@@ -1,13 +1,21 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
 #include"Map.h"
+#include "ECS.h"
+#include "Components.h"
 GameObject* player;
 GameObject* enemy;
 Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
 
+Manager manager;
+auto& newPlayer(manager.addEntity());
+/*không chắc về ý nghĩa cụ thể của từ khóa auto trong c++,
+nhưng tôi nghĩ nó có nghĩa là biến 
+newPlayer sẽ tự động nhận kiểu dữ liệu từ giá trị 
+được gán cho nó*/
 Game::Game()
 {}
 
@@ -37,6 +45,8 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	player = new GameObject(".//assets//Player.png", 0, 0);
 	enemy = new GameObject(".//assets//enemy.png", 50, 50);
 	map = new Map();
+
+	newPlayer.addComponent<PostionComponent>();
 }
 
 void Game::handleEvents()
@@ -59,6 +69,9 @@ void Game::update()
 {
 	player->Update();
 	enemy->Update();
+	manager.update();
+	std::cout << newPlayer.getComponent<PostionComponent>().x() << "," <<
+		newPlayer.getComponent<PostionComponent>().y() << std::endl;
 }
 
 void Game::render()

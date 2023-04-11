@@ -20,7 +20,7 @@ inline ComponentID getComponentTypeID()//l?y ID c?a t?ng thành ph?n trong game
 template <typename T> inline ComponentID getComponentTypeID() noexcept//l?y ID c?a m?t ki?u d? li?u c? th?.
 {
 	static ComponentID typeID = getComponentTypeID();
-	return typeID();
+	return typeID;
 }
 
 constexpr std::size_t maxComponents = 32;//gi?i h?n s? l??ng thành ph?n t?i ?a trong game
@@ -53,9 +53,11 @@ public:
 	void update()
 	{
 		for (auto& c : components) c->update();
+	}
+	void draw() 
+	{
 		for (auto& c : components) c->draw();
 	}
-	void draw() {}
 	bool isActive() { return active;  }
 	void destroy() { active = false; }
 
@@ -63,15 +65,15 @@ public:
 	//ki?m tra xem m?t ??i t??ng có ch?a m?t ki?u d? li?u c? th? hay không.
 	template <typename T> bool hasComponent() const
 	{
-		return componentBitset[getComponentID<T>];
+		return componentBitSet[getComponentTypeID<T>()];
 	}
 
 	template <typename T, typename... TArgs>
 	T& addComponent(TArgs&&... mArgs)
 	{
-		T* c(new T(std::forward < TArgs)(mArgs)...));
+		T* c(new T(std::forward < TArgs>(mArgs)...));
 		c->entity = this;
-		std::unique_ptr<Commponent> uPtr{ c };
+		std::unique_ptr<Component> uPtr{ c };
 		components.emplace_back(std::move(uPtr));
 
 		componentArray[getComponentTypeID<T>()] = c;
