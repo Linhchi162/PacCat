@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include"Components.h"
 #include"Map.h"
+#include"Vector2D.h"
 Map* map;
 
 SDL_Renderer* Game::renderer = nullptr;
@@ -39,7 +40,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		isRunning = true;
 	}
 	map = new Map();
-	Player.addComponent<PositionComponent>();
+	Player.addComponent<TransformComponent>();
 	Player.addComponent<SpriteComponent>("./assets/player.png");
 }
 
@@ -63,8 +64,8 @@ void Game::update()
 {
 	manager.refresh();
 	manager.update();
-
-	if (Player.getComponent<PositionComponent>().x() > 100)
+	Player.getComponent<TransformComponent>().position.Add(Vector2D(1, 1));
+	if (Player.getComponent<TransformComponent>().position.x > 100)
 	{
 		Player.getComponent<SpriteComponent>().setTex("./assets/enemy.png");
 	}
