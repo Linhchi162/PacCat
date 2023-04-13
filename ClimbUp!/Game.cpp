@@ -3,12 +3,15 @@
 #include"Components.h"
 #include"Map.h"
 #include"Vector2D.h"
+#include"Collision.h"
 Map* map;
+Manager manager;
 
 SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
 
-Manager manager;
 auto& Player(manager.addEntity());
+auto& wall(manager.addEntity());
 /*không chắc về ý nghĩa cụ thể của từ khóa auto trong c++,
 nhưng tôi nghĩ nó có nghĩa là biến 
 newPlayer sẽ tự động nhận kiểu dữ liệu từ giá trị 
@@ -40,14 +43,19 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 		isRunning = true;
 	}
 	map = new Map();
-	Player.addComponent<TransformComponent>();
+	Player.addComponent<TransformComponent>(2);
 	Player.addComponent<SpriteComponent>("./assets/player.png");
+	Player.addComponent<KeyboardController>();
+	Player.addComponent<ColliderComponent>("player");
+	
+	wall.addComponent<TransformComponent>(300.0f, 300.0f, 300, 20, 1);
+	wall.addComponent<SpriteComponent>("./assets/dirt.png");
+	wall.addComponent<ColliderComponent>("wall");
 }
 
 void Game::handleEvents()
 {
-	SDL_Event event;
-
+	
 	SDL_PollEvent(&event);
 
 	switch (event.type)
@@ -64,11 +72,13 @@ void Game::update()
 {
 	manager.refresh();
 	manager.update();
-	Player.getComponent<TransformComponent>().position.Add(Vector2D(1, 1));
-	if (Player.getComponent<TransformComponent>().position.x > 100)
+
+	if (Collision::AABB(Player.getComponent<ColliderComponent>().collider,
+		wall.getComponent<ColliderComponent>().collider))
 	{
-		Player.getComponent<SpriteComponent>().setTex("./assets/enemy.png");
+		std::cout << "Wall hit!" << std::endl;
 	}
+
 }
 
 void Game::render()
