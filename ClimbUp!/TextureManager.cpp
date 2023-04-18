@@ -1,17 +1,19 @@
 #include"TextureManager.h"
-#include "TextureManager.h"
 
-
-SDL_Texture* TextureManager::LoadTexture(const char* texture)
+TextureManager::TextureManager()
 {
-	SDL_Surface* tempSurface = IMG_Load(texture);
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(Game::renderer, tempSurface);
-	SDL_FreeSurface(tempSurface);
+	//Initialize
+	mTexture = NULL;
+	mRenderer = NULL;
 
-	return tex;
+	mWidth = 0;
+	mHeight = 0;
+
+	mTileWidth = 0;
+	mTileHeight = 0;
 }
-
-void TextureManager::Draw(SDL_Texture* tex, SDL_Rect src, SDL_Rect dest) 
+TextureManager::~TextureManager()
 {
-	SDL_RenderCopy(Game::renderer, tex, &src, &dest);
+	//Deallocate
+	Free();
 }

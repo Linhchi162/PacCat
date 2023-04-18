@@ -48,7 +48,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 		isRunning = true;
 	}
-	map = new Map();
+	Map::LoadMap("./assets/p16x16.map", 16, 16);
 	background = new Background();
 
 	Player.addComponent<TransformComponent>(2);

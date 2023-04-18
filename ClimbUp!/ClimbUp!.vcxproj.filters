@@ -16,9 +16,6 @@
     <Filter Include="assets">
       <UniqueIdentifier>{e2d8fd84-277d-4b89-be3b-cd7519511992}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ECS">
-      <UniqueIdentifier>{1ef4c203-47f8-4c0b-b9fa-75189ce48199}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -59,32 +56,11 @@
     <ClInclude Include="Map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ECS.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteComponent.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardController.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderComponent.h">
-      <Filter>ECS</Filter>
-    </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TileComponent.h">
-      <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>Header Files</Filter>

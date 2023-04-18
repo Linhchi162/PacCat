@@ -11,7 +11,6 @@ class Component;
 class Entity;
 
 using ComponentID = std::size_t;
-
 inline ComponentID getComponentTypeID()//l?y ID c?a t?ng thành ph?n trong game
 {
 	static ComponentID lastID = 0;
@@ -25,7 +24,10 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept//l?y ID c
 
 constexpr std::size_t maxComponents = 32;//gi?i h?n s? l??ng thành ph?n t?i ?a trong game
 
+
 using ComponentBitSet = std::bitset<maxComponents>;//là m?t bitset ?? xác ??nh xem ??i t??ng có ch?a thành ph?n nào hay không.
+
+
 using ComponentArray = std::array<Component*, maxComponents>;//là m?t m?ng ch?a các con tr? unique_ptr tr? t?i các thành ph?n c?a ??i t??ng
 
 
@@ -50,6 +52,7 @@ private:
 	ComponentArray componentArray;
 	ComponentBitSet componentBitSet;
 public:
+
 	void update()
 	{
 		for (auto& c : components) c->update();
