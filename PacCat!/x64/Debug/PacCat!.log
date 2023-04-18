@@ -1,0 +1,29 @@
+﻿  Background.cpp
+C:\PacCat-\PacCat\PacCat!\Background.cpp(5,31): error C2039: 'LoadTexture': is not a member of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\TextureManager.h(6,7): message : see declaration of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\Background.cpp(5,42): error C3861: 'LoadTexture': identifier not found
+C:\PacCat-\PacCat\PacCat!\Background.cpp(18,18): error C2039: 'Draw': is not a member of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\TextureManager.h(6,7): message : see declaration of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\Background.cpp(18,22): error C3861: 'Draw': identifier not found
+  Collision.cpp
+C:\PacCat-\PacCat\PacCat!\SpriteComponent.h(27,29): error C2039: 'LoadTexture': is not a member of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\TextureManager.h(6,7): message : see declaration of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\SpriteComponent.h(27,1): error C3861: 'LoadTexture': identifier not found
+C:\PacCat-\PacCat\PacCat!\SpriteComponent.h(47,19): error C2039: 'Draw': is not a member of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\TextureManager.h(6,7): message : see declaration of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\SpriteComponent.h(47,1): error C3861: 'Draw': identifier not found
+  Game.cpp
+C:\PacCat-\PacCat\PacCat!\SpriteComponent.h(27,29): error C2039: 'LoadTexture': is not a member of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\TextureManager.h(6,7): message : see declaration of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\SpriteComponent.h(27,1): error C3861: 'LoadTexture': identifier not found
+C:\PacCat-\PacCat\PacCat!\SpriteComponent.h(47,19): error C2039: 'Draw': is not a member of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\TextureManager.h(6,7): message : see declaration of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\SpriteComponent.h(47,1): error C3861: 'Draw': identifier not found
+  GameObject.cpp
+C:\PacCat-\PacCat\PacCat!\GameObject.cpp(5,31): error C2039: 'LoadTexture': is not a member of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\TextureManager.h(6,7): message : see declaration of 'TextureManager'
+C:\PacCat-\PacCat\PacCat!\GameObject.cpp(5,42): error C3861: 'LoadTexture': identifier not found
+  main.cpp
+  Map.cpp
+  TextureManager.cpp
+  Generating Code...
