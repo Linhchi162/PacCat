@@ -38,6 +38,7 @@ public:
 	bool SetSpecialFoodType(int foodType);
 	bool AllowcateSpecialFood();
 
+	int heuristic(Tile* from, Tile* to);
 	std::pair<int, int> GetNearValidPoint(int x, int y);
 	int HowToGo(int fromX, int fromY, int goalX, int goalY);
 
