@@ -25,6 +25,13 @@ public:
 	Game();
 	~Game();
 
+	static void PacmanCollidingWith(const Entity& ghost);
+	static bool IsPacmanInGhostHouse();
+	static void FrightenGhosts();
+	static void IncrementScore();
+
+
+
 	void init(const char* title, int width, int height, bool fullscreen);
 
 	void handleEvents();
@@ -38,6 +45,5 @@ public:
 
 private:
 
-	int cnt = 0;
 	SDL_Window* window;
 };

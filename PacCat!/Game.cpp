@@ -2,20 +2,38 @@
 #include"TextureManager.h"
 #include"Components.h"
 #include"CollisionSystem.h"
+#include"KeyboardController.h"
+#include"Math.h"
+#include"PacManController.h"
 #include <string>
 #include"Map.h"
 
 
+int scoreForWinning = -1; // negative => the number of dots on map. Change this value to a positive int to 
+// explicitly set the amount of score to be required for winning.
 
+const unsigned COLLIDER_BOX_SIZE = 20; // these collider boxes are used for Pacman/Ghosts colliding logic
 
 
 
 
 const unsigned Game::TILE_SIZE = 32; // Textures are 32x32p. Having higher tile size will decrease quality and might affect speeds.
 const unsigned Game::HALF_TILE_SIZE = Game::TILE_SIZE / 2;
+const unsigned Game::WINDOW_WIDTH = tilesCountX * Game::TILE_SIZE; // tilesCount is stored in the Map file
+const unsigned Game::WINDOW_HEIGHT = tilesCountY * Game::TILE_SIZE;
+
+
+const int pacmanSpeed = 2;
+
 SDL_Event Game::event;
 Map* Game::map = nullptr;
 SDL_Renderer* Game::renderer = nullptr;
+
+
+
+
+
+PacmanController* pacman;
 
 bool Game::isRunning = false;
 

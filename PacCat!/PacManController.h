@@ -1,0 +1,36 @@
+#pragma once
+#include "Game.h"
+#include "KeyboardController.h"
+
+class PacmanController
+{
+private:
+	Transform* transform;
+	TextureRenderer* sr;
+	Collider* collider;
+	KeyboardController* keyboardController;
+
+	SDL_Texture* lookingUp;
+	SDL_Texture* lookingDown;
+	SDL_Texture* lookingLeft;
+	SDL_Texture* lookingRight;
+
+	int speed;
+
+	int direction[2];
+
+	void InteractWithTile();
+
+public:
+	PacmanController() = default;
+	PacmanController(const int& speed, Engine& engine, Entity& entity);
+
+	bool CanMove();
+	void Update();
+	void GetUserInput();
+
+	void Move();
+
+	float GetPosX() const { return transform->xPos; }
+	float GetPosY() const { return transform->yPos; }
+};
