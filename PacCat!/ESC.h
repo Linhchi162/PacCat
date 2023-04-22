@@ -64,4 +64,73 @@ public:
 		return signatures[entity];
 	}
 };
+class IComponentArray
+{
+public:
+	virtual ~IComponentArray() = default;
+	virtual void EntityDestroyed(const Entity& entity) = 0;
+};
+
+
+template<typename T>
+class ComponentArray : public IComponentArray
+{
+private:
+	std::array<T, MAX_ENTITIES> componentArray;
+
+	// Map from an entity ID to an array index.
+	std::unordered_map<Entity, size_t> entityToIndexMap;
+
+	// Map from an array index to an entity ID.
+	std::unordered_map<size_t, Entity> indexToEntityMap;
+
+	size_t validEntriesInArray;
+
+public:
+	void InsertData(const Entity& entity, T component)
+	{
+		size_t newIndex = validEntriesInArray;
+		entityToIndexMap[entity] = newIndex;
+		indexToEntityMap[newIndex] = entity;
+		componentArray[newIndex] = component;
+		++validEntriesInArray;
+	}
+
+	void RemoveData(const Entity& entity)
+	{
+		size_t indexOfRemovedEntity = entityToIndexMap[entity];
+		size_t indexOfLastElement = validEntriesInArray - 1;
+		componentArray[indexOfRemovedEntity] = componentArray[indexOfLastElement];
+
+		Entity entityOfLastElement = indexToEntityMap[indexOfLastElement];
+		entityToIndexMap[entityOfLastElement] = indexOfRemovedEntity;
+		indexToEntityMap[indexOfRemovedEntity] = entityOfLastElement;
+
+		entityToIndexMap.erase(entity);
+		indexToEntityMap.erase(indexOfLastElement);
+
+		--validEntriesInArray;
+	}
+
+	bool HasData(const Entity& entity)
+	{
+		return indexToEntityMap[entityToIndexMap[entity]] == entity;
+	}
+
+	T& GetData(const Entity& entity)
+	{
+		return componentArray[entityToIndexMap[entity]];
+	}
+
+	void EntityDestroyed(const Entity& entity) override
+	{
+		if (entityToIndexMap.find(entity) != entityToIndexMap.end())
+		{
+			RemoveData(entity);
+		}
+	}
+};
+
+
+
 
