@@ -1,5 +1,7 @@
 #include "Game.h"
 #include"TextureManager.h"
+#include"Components.h"
+#include"CollisionSystem.h"
 #include <string>
 
 

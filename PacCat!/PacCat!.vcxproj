@@ -134,8 +134,9 @@
   <ItemGroup>
     <ClInclude Include="CollisionSystem.h" />
     <ClInclude Include="Components.h" />
-    <ClInclude Include="ESC.h" />
+    <ClInclude Include="ECS.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>

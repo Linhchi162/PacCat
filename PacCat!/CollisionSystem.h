@@ -3,6 +3,7 @@
 #define _COLLISIONSYSTEM_HEADER_INCLUDED_
 
 #include "ECS.h"
+#include "Game.h"
 
 class CollisionSystem : public System
 {

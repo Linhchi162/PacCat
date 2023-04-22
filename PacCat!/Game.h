@@ -3,7 +3,10 @@
 #include "SDL_image.h"
 #include <iostream>
 #include <vector>
+#include "ECS.h"
 
+
+static Engine engine;
 
 class Game
 {
