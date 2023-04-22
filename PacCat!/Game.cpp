@@ -3,9 +3,18 @@
 #include"Components.h"
 #include"CollisionSystem.h"
 #include <string>
+#include"Map.h"
 
 
+
+
+
+
+
+const unsigned Game::TILE_SIZE = 32; // Textures are 32x32p. Having higher tile size will decrease quality and might affect speeds.
+const unsigned Game::HALF_TILE_SIZE = Game::TILE_SIZE / 2;
 SDL_Event Game::event;
+Map* Game::map = nullptr;
 SDL_Renderer* Game::renderer = nullptr;
 
 bool Game::isRunning = false;
@@ -39,6 +48,8 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	}
 
 
+	map = new Map();
+
 }
 
 
@@ -67,7 +78,7 @@ void Game::update()
 void Game::render()
 {
 	SDL_RenderClear(renderer);
-	
+	map->DrawMap();
 
 	SDL_RenderPresent(renderer);
 }

@@ -1,5 +1,14 @@
 ﻿  Game.cpp
   main'.cpp
+  Map.cpp
+C:\PacCat-\PacCat\PacCat!\Map.cpp(41,2): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\PacCat-\PacCat\SDL\include\SDL_render.h(127,8): message : see declaration of 'SDL_Texture'
+C:\PacCat-\PacCat\PacCat!\Map.cpp(42,2): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\PacCat-\PacCat\SDL\include\SDL_render.h(127,8): message : see declaration of 'SDL_Texture'
+C:\PacCat-\PacCat\PacCat!\Map.cpp(43,2): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\PacCat-\PacCat\SDL\include\SDL_render.h(127,8): message : see declaration of 'SDL_Texture'
+C:\PacCat-\PacCat\PacCat!\Map.cpp(44,2): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\PacCat-\PacCat\SDL\include\SDL_render.h(127,8): message : see declaration of 'SDL_Texture'
   TextureManager.cpp
   Generating Code...
   PacCat!.vcxproj -> C:\PacCat-\PacCat\PacCat!\x64\Debug\PacCat!.exe
