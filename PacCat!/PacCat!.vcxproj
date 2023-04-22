@@ -132,6 +132,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionSystem.h" />
+    <ClInclude Include="Components.h" />
     <ClInclude Include="ESC.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="TextureManager.h" />
