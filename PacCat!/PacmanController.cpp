@@ -49,7 +49,7 @@ void PacmanController::InteractWithTile()
 
 	int* tileValue = &Game::map->tiles[yTileInd % tilesCountY][xTileInd % tilesCountX];
 
-	if (*tileValue == 2)
+	/*if (*tileValue == 2)
 	{
 		*tileValue = 0;
 
@@ -60,7 +60,7 @@ void PacmanController::InteractWithTile()
 		*tileValue = 0;
 
 		Game::FrightenGhosts();
-	}
+	}*/
 }
 
 void PacmanController::GetUserInput()
@@ -140,11 +140,11 @@ void PacmanController::Move()
 
 void PacmanController::Update()
 {
-	if (collider->collidedWith) // Except Pacman, there are only ghosts with colliders. Heavy collision systems are not needed.
+	/*if (collider->collidedWith) // Except Pacman, there are only ghosts with colliders. Heavy collision systems are not needed.
 	{
 		Game::PacmanCollidingWith(collider->collidedWith);
 		collider->collidedWith = NULL;
-	}
+	}*/
 
 	keyboardController->Update();
 	GetUserInput();
