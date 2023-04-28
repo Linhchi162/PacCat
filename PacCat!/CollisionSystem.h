@@ -1,6 +1,4 @@
 #pragma once
-#ifndef _COLLISIONSYSTEM_HEADER_INCLUDED_
-#define _COLLISIONSYSTEM_HEADER_INCLUDED_
 
 #include "ECS.h"
 #include "Game.h"
@@ -24,7 +22,7 @@ private:
 
 			auto& transform = engine.GetComponent<Transform>(entity);
 
-			// offset is currently fixed! as there is (and will be) no reason for it not to be
+			
 			collider.colliderRect.x = transform.xPos + offsetX;
 			collider.colliderRect.y = transform.yPos + offsetY;
 		}
@@ -87,4 +85,3 @@ public:
 	}
 };
 
-#endif // !_COLLISIONSYSTEM_HEADER_INCLUDED_

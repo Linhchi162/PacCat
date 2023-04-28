@@ -11,7 +11,7 @@ int xTileInd = 0;
 
 PacmanController::PacmanController(const int& speed, Engine& engine, Entity& attachedTo) : speed(speed)
 {
-	this->direction[0] = 1;
+	this->direction[0] = 0;
 	this->direction[1] = 0;
 
 	if (!(engine.HasComponent<Transform>(attachedTo) &&
@@ -49,18 +49,17 @@ void PacmanController::InteractWithTile()
 
 	int* tileValue = &Game::map->tiles[yTileInd % tilesCountY][xTileInd % tilesCountX];
 
-	/*if (*tileValue == 2)
+	if (*tileValue == 2)
 	{
 		*tileValue = 0;
 
-		Game::IncrementScore();
+		//Game::IncrementScore();
 	}
 	else if (*tileValue == 3)
 	{
 		*tileValue = 0;
-
-		Game::FrightenGhosts();
-	}*/
+		//Game::FrightenGhosts();
+	}
 }
 
 void PacmanController::GetUserInput()

@@ -13,9 +13,9 @@ inline float distFromEdge(float a, const float& b)
     if (a < 0) {
         a = -a;
     }
-    while (a > b) {
+      while (a > b) {
         a -= b;
-    }
+         }
     if (a < b - a) {
         return a;
     }
@@ -68,5 +68,5 @@ inline float myPow(const float& base, const float& ex) {
 
 inline float distBetweenTwoPoints(const float& x1Pos, const float& y1Pos, const float& x2Pos, const float& y2Pos)
 {
-    return nthRoot(myPow(x2Pos - x1Pos, 2) + myPow(y2Pos - y1Pos, 2) * 1.0, 2); // Pythagoras for simplicity
+    return nthRoot(myPow(x2Pos - x1Pos, 2) + myPow(y2Pos - y1Pos, 2) * 1.0, 2); // Pi-ta-go
 }
