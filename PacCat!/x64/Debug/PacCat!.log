@@ -1,2 +1,69 @@
-﻿  main'.cpp
-  PacCat!.vcxproj -> C:\PacCat-\PacCat\PacCat!\x64\Debug\PacCat!.exe
+﻿  Game.cpp
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C2143: syntax error: missing ',' before '&'
+C:\PacCat-\PacCat\PacCat!\Game.cpp(3,9): fatal  error C1083: Cannot open include file: 'Components.h': No such file or directory
+  Map.cpp
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C2143: syntax error: missing ',' before '&'
+C:\PacCat-\PacCat\PacCat!\Map.cpp(25,9): error C2653: 'TextureManager': is not a class or namespace name
+C:\PacCat-\PacCat\PacCat!\Map.cpp(26,10): error C2653: 'TextureManager': is not a class or namespace name
+C:\PacCat-\PacCat\PacCat!\Map.cpp(27,8): error C2653: 'TextureManager': is not a class or namespace name
+C:\PacCat-\PacCat\PacCat!\Map.cpp(28,14): error C2653: 'TextureManager': is not a class or namespace name
+C:\PacCat-\PacCat\PacCat!\Map.cpp(41,2): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\PacCat-\PacCat\SDL\include\SDL_render.h(127,8): message : see declaration of 'SDL_Texture'
+C:\PacCat-\PacCat\PacCat!\Map.cpp(42,2): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\PacCat-\PacCat\SDL\include\SDL_render.h(127,8): message : see declaration of 'SDL_Texture'
+C:\PacCat-\PacCat\PacCat!\Map.cpp(43,2): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\PacCat-\PacCat\SDL\include\SDL_render.h(127,8): message : see declaration of 'SDL_Texture'
+C:\PacCat-\PacCat\PacCat!\Map.cpp(44,2): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\PacCat-\PacCat\SDL\include\SDL_render.h(127,8): message : see declaration of 'SDL_Texture'
+C:\PacCat-\PacCat\PacCat!\Map.cpp(77,3): error C2653: 'TextureManager': is not a class or namespace name
+C:\PacCat-\PacCat\PacCat!\Map.cpp(80,3): error C2653: 'TextureManager': is not a class or namespace name
+C:\PacCat-\PacCat\PacCat!\Map.cpp(83,3): error C2653: 'TextureManager': is not a class or namespace name
+C:\PacCat-\PacCat\PacCat!\Map.cpp(86,3): error C2653: 'TextureManager': is not a class or namespace name
+  PacmanController.cpp
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C2143: syntax error: missing ',' before '&'
+C:\PacCat-\PacCat\PacCat!\PacmanController.h(12,22): error C2086: 'KeyboardController *PacmanController::keyboardController': redefinition
+C:\PacCat-\PacCat\PacCat!\PacmanController.h(21,8): error C3646: 'PacPrePos': unknown override specifier
+C:\PacCat-\PacCat\PacCat!\PacmanController.h(21,17): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\PacCat-\PacCat\PacCat!\PacmanController.h(22,8): error C3646: 'PacPos': unknown override specifier
+C:\PacCat-\PacCat\PacCat!\PacmanController.h(22,15): error C2059: syntax error: '='
+C:\PacCat-\PacCat\PacCat!\PacmanController.h(22,17): error C2334: unexpected token(s) preceding '{'; skipping apparent function body
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(2,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\PacCat-\PacCat\PacCat!\Math.h(11,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\PacCat-\PacCat\PacCat!\Math.h(12,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\PacCat-\PacCat\PacCat!\Math.h(38,68): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\Math.h(38,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\Math.h(60,32): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+C:\PacCat-\PacCat\PacCat!\Math.h(75,44): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(6,35): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(23,67): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(23,50): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(27,75): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(27,51): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(31,91): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(31,58): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(51,67): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(51,50): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(54,52): warning C4244: 'argument': conversion from 'const unsigned int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(54,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(65,52): warning C4244: 'argument': conversion from 'const unsigned int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(65,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(76,52): warning C4244: 'argument': conversion from 'const unsigned int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(76,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(87,52): warning C4244: 'argument': conversion from 'const unsigned int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(87,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(102,108): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(102,58): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(106,90): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(106,58): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(118,36): error C2065: 'speed': undeclared identifier
+C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(119,36): error C2065: 'speed': undeclared identifier
+  TextureManager.cpp
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C2143: syntax error: missing ',' before '&'
+  main'.cpp
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+C:\PacCat-\PacCat\PacCat!\Game.h(26,46): error C2143: syntax error: missing ',' before '&'
+  Generating Code...

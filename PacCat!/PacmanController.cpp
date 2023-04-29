@@ -50,7 +50,7 @@ void PacmanController::GetUserInput()
 {
 	CoordinatesToTiles(xTileInd, yTileInd, transform->xPos, transform->yPos);
 
-	if (keyboardController->wasUpPressed) {
+	if (keyboardController->Up) {
 		float dist = distFromEdge(transform->xPos, Game::TILE_SIZE);
 		if (dist <= treshHold && dist >= -treshHold && Game::map->tiles[yTileInd - 1][xTileInd] != 1)
 		{
@@ -61,7 +61,7 @@ void PacmanController::GetUserInput()
 		}
 	}
 
-	else if (keyboardController->wasLeftPressed) {
+	else if (keyboardController->Left) {
 		float dist = distFromEdge(transform->yPos, Game::TILE_SIZE);
 		if (dist <= treshHold && dist >= -treshHold && Game::map->tiles[yTileInd][xTileInd - 1] != 1)
 		{
@@ -72,7 +72,7 @@ void PacmanController::GetUserInput()
 		}
 	}
 
-	else if (keyboardController->wasDownPressed) {
+	else if (keyboardController->Down) {
 		float dist = distFromEdge(transform->xPos, Game::TILE_SIZE);
 		if (dist <= treshHold && dist >= -treshHold && Game::map->tiles[yTileInd + 1][xTileInd] != 1)
 		{
@@ -83,7 +83,7 @@ void PacmanController::GetUserInput()
 		}
 	}
 
-	else if (keyboardController->wasRightPressed) {
+	else if (keyboardController->Right) {
 		float dist = distFromEdge(transform->yPos, Game::TILE_SIZE);
 		if (dist <= treshHold && dist >= -treshHold && Game::map->tiles[yTileInd][xTileInd + 1] != 1)
 		{
@@ -115,8 +115,8 @@ bool PacmanController::CanMove()
 
 void PacmanController::Move()
 {
-	transform->xPos += direction[0] * speed;
-	transform->yPos += direction[1] * speed;
+	transform->xPos += direction[0] * PacSpeed;
+	transform->yPos += direction[1] * PacSpeed;
 
 	InteractWithTile();
 }

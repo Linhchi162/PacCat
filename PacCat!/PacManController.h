@@ -1,10 +1,13 @@
 #pragma once
 #include "Game.h"
 #include "KeyboardController.h"
+#include "Collision.h"
 
 class PacmanController
 {
 private:
+	Transform* transform;
+	TextureRenderer* sr;
 	KeyboardController* keyboardController;
 
 	SDL_Texture* lookingUp;
@@ -33,6 +36,4 @@ public:
 	void PacDie();
 	void Move();
 
-	float GetPosX() const { return transform->xPos; }
-	float GetPosY() const { return transform->yPos; }
 };

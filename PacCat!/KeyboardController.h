@@ -4,10 +4,10 @@
 class KeyboardController
 {
 public:
-	bool wasUpPressed;
-	bool wasDownPressed;
-	bool wasLeftPressed;
-	bool wasRightPressed;
+	bool Up;
+	bool Down;
+	bool Left;
+	bool Right;
 
 	void Update()
 	{
@@ -16,20 +16,20 @@ public:
 			switch (Game::event.key.keysym.sym)
 			{
 			case SDLK_UP:
-				wasUpPressed = true;
-				wasDownPressed = wasLeftPressed = wasRightPressed = false;
+				Up = true;
+				Down = Left = Right = false;
 				break;
 			case SDLK_DOWN:
-				wasDownPressed = true;
-				wasUpPressed = wasLeftPressed = wasRightPressed = false;
+				Down = true;
+				Up = Left = Right = false;
 				break;
 			case SDLK_LEFT:
-				wasLeftPressed = true;
-				wasRightPressed = wasUpPressed = wasDownPressed = false;
+				Left = true;
+				Right = Up= Down = false;
 				break;
 			case SDLK_RIGHT:
-				wasRightPressed = true;
-				wasLeftPressed = wasUpPressed = wasDownPressed = false;
+				Right = true;
+				Left = Up = Down = false;
 				break;
 			default:
 				break;
