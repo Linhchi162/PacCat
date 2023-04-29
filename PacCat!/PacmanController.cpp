@@ -2,36 +2,20 @@
 #include "TextureManager.h";
 #include "Math.h"
 
-// its OK for these to be shared amoung functions and be global as 
-// there is only one Pacman and the execution is linear
-const static float treshHold = 0.1; // the value that distance (to the edge of block) has to be before making a turn around that edge's corner
 
+const static float treshHold = 0.1; 
 int yTileInd = 0;
 int xTileInd = 0;
 
-PacmanController::PacmanController(const int& speed, Engine& engine, Entity& attachedTo) : speed(speed)
+PacmanController::PacmanController(const int& speed)
 {
 	this->direction[0] = 0;
 	this->direction[1] = 0;
 
-	if (!(engine.HasComponent<Transform>(attachedTo) &&
-		engine.HasComponent<Collider>(attachedTo) &&
-		engine.HasComponent<TextureRenderer>(attachedTo) &&
-		engine.HasComponent<KeyboardController>(attachedTo)))
-	{
-		std::cerr << "Pacman (currently) must have Transform, Collider, TextureRenderer and KeyboardController components attached." << std::endl;
-		exit(0);
-	}
-
-	transform = &engine.GetComponent<Transform>(attachedTo);
-	sr = &engine.GetComponent<TextureRenderer>(attachedTo);
-	collider = &engine.GetComponent<Collider>(attachedTo);
-	keyboardController = &engine.GetComponent <KeyboardController>(attachedTo);
-
-	lookingUp = TextureManager::LoadTexture("assets/Pacman/lookingUp.png");
-	lookingDown = TextureManager::LoadTexture("assets/Pacman/lookingDown.png");
-	lookingLeft = TextureManager::LoadTexture("assets/Pacman/lookingLeft.png");
-	lookingRight = TextureManager::LoadTexture("assets/Pacman/lookingRight.png");
+	lookingUp = LoadTexture("assets/Pacman/lookingUp.png");
+	lookingDown = LoadTexture("assets/Pacman/lookingDown.png");
+	lookingLeft = LoadTexture("assets/Pacman/lookingLeft.png");
+	lookingRight = LoadTexture("assets/Pacman/lookingRight.png");
 }
 
 void PacmanController::InteractWithTile()

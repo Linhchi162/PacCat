@@ -2,6 +2,10 @@
 #include"Game.h"
 
 
+struct point
+{
+    int x, y;
+};
 inline void CoordinatesToTiles(int& tileX, int& tileY, const float& coordX, const float& coordY)
 {
     tileX = coordX / Game::TILE_SIZE;

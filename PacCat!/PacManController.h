@@ -12,20 +12,25 @@ private:
 	SDL_Texture* lookingLeft;
 	SDL_Texture* lookingRight;
 
-	int speed;
+
+	SDL_RendererFlip pacFlip;
+	point PacPrePos;
+	point PacPos = { 14 * 16,8 * 16 };
+
+	int PacSpeed = 16;
 
 	int direction[2];
-
+	
 	void InteractWithTile();
 
 public:
 	PacmanController() = default;
-	PacmanController(const int& speed, Engine& engine, Entity& entity);
+	PacmanController(const int& speed);
 
 	bool CanMove();
 	void Update();
 	void GetUserInput();
-
+	void PacDie();
 	void Move();
 
 	float GetPosX() const { return transform->xPos; }
