@@ -5,9 +5,6 @@
 class PacmanController
 {
 private:
-	Transform* transform;
-	TextureRenderer* sr;
-	Collider* collider;
 	KeyboardController* keyboardController;
 
 	SDL_Texture* lookingUp;
