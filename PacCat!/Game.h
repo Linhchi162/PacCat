@@ -5,6 +5,7 @@
 #include"Settings.h"
 #include"GameLevel.h"
 #include"Cat.h"
+#include"LTexture.h"
 
 
 class Game
@@ -16,13 +17,13 @@ public:
 	~Game();
 
 
-	SDL_Texture* LoadTexture(string path);
+	
 	bool Init();
 	void GameLoop();
 	void Shutdown();
 	bool BoxUpdated(int moveX, int moveY, int pX, int pY);
 	bool HitWall(int x, int y);
-
+	
 
 
 private:

@@ -1,8 +1,8 @@
 #include "Cat.h"
 
-Cat::Cat(Game* g) {
+Cat::Cat(Game* g,SDL_Renderer* renderer) {
 	game = g;
-	texture = game->LoadTexture("./assets/Cat.png");
+	texture = LoadTexture("./assets/Cat.png", renderer);
 	direction = 0;
 	pos.x = 0;
 	pos.y = 0;

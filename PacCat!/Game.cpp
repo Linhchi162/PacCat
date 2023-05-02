@@ -36,13 +36,13 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	gamelevel->LoadLevel();
 
 
-	wallTexture = LoadTexture("./assets/wall.png");
-	groundTexture = LoadTexture("./assets/ground.png");
-	boxTexture = LoadTexture("./assets/box.png");
-	goalTexture = LoadTexture("./assets/goal.png");
+	wallTexture = LoadTexture("./assets/wall.png", renderer);
+	groundTexture = LoadTexture("./assets/ground.png", renderer);
+	boxTexture = LoadTexture("./assets/box.png", renderer);
+	goalTexture = LoadTexture("./assets/goal.png", renderer);
 
 
-	cat = new Cat(this);
+	cat = new Cat(this, renderer);
 
 	InitLevel();
 
@@ -253,18 +253,4 @@ void Game::Shutdown() {
 	IMG_Quit();
 	SDL_Quit();
 }
-SDL_Texture* Game::LoadTexture(string path) {
-	SDL_Surface* tempSurface = IMG_Load(path.c_str());
-	if (tempSurface == NULL) {
-		cout << "Failed to load surface: " << IMG_GetError() << endl;
-	}
 
-	SDL_Texture* newTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
-	if (newTexture == NULL) {
-		cout << "Failed to conver to texture: " << SDL_GetError() << endl;
-	}
-
-	SDL_FreeSurface(tempSurface);
-
-	return newTexture;
-}

@@ -4,7 +4,7 @@
 class Cat
 {
 public:
-	Cat(class Game* g);
+	Cat(class Game* g,SDL_Renderer* renderer);
 	void Move(int x, int y);
 	void Reset(int x, int y);
 	void Draw(SDL_Renderer* renderer);
