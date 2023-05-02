@@ -137,7 +137,6 @@
     <ClInclude Include="GameLevel.h" />
     <ClInclude Include="Cat.h" />
     <ClInclude Include="Settings.h" />
-    <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Box.cpp" />
@@ -145,7 +144,6 @@
     <ClCompile Include="GameLevel.cpp" />
     <ClCompile Include="main%27.cpp" />
     <ClCompile Include="Cat.cpp" />
-    <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

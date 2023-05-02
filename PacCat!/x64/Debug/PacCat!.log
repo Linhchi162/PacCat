@@ -1,25 +1,2 @@
-﻿  PacmanController.cpp
-C:\PacCat-\PacCat\PacCat!\Math.h(13,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\PacCat-\PacCat\PacCat!\Math.h(14,20): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\PacCat-\PacCat\PacCat!\Math.h(40,68): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\Math.h(40,30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\Math.h(62,32): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
-C:\PacCat-\PacCat\PacCat!\Math.h(77,44): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(5,35): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(48,67): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(48,50): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(52,75): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(52,51): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(56,85): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(56,58): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(76,67): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(76,50): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(79,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(90,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(101,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(112,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(127,102): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(127,58): warning C4244: 'argument': conversion from 'unsigned int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(131,90): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-C:\PacCat-\PacCat\PacCat!\PacmanController.cpp(131,58): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+﻿  Game.cpp
   PacCat!.vcxproj -> C:\PacCat-\PacCat\PacCat!\x64\Debug\PacCat!.exe

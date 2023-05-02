@@ -1,12 +1,8 @@
 #pragma once
-#ifndef _GAME_HEADER_INCLUDED_
-#define _GAME_HEADER_INCLUDED_
-#include "SDL.h"
-#include "SDL_image.h"
-#include <iostream>
+
 #include <vector>
 #include"Box.h"
-#include<string>
+#include"Settings.h"
 #include"GameLevel.h"
 #include"Cat.h"
 
@@ -52,7 +48,7 @@ private:
 	SDL_Texture* goalTexture = nullptr;
 
 	class GameLevel* gamelevel;
-	Cat* cat;
+	class Cat* cat;
 
 	vector<Box*> boxes;
 
@@ -61,4 +57,3 @@ private:
 
 };
 
-#endif

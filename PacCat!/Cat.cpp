@@ -2,7 +2,7 @@
 
 Cat::Cat(Game* g) {
 	game = g;
-	texture = game->LoadTexture("Assets/Cat.png");
+	texture = game->LoadTexture("./assets/Cat.png");
 	direction = 0;
 	pos.x = 0;
 	pos.y = 0;
