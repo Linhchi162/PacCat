@@ -4,7 +4,7 @@
 #include<iostream>
 
 
-SDL_Texture* LoadText(std::string text, SDL_Color color, TTF_Font* font, SDL_Renderer* renderer) {
+inline SDL_Texture* LoadText(std::string text, SDL_Color color, TTF_Font* font, SDL_Renderer* renderer) {
     SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
     if (!surface) {
         std::cout << "Error rendering text: " << SDL_GetError() << std::endl;

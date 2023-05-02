@@ -2,7 +2,6 @@
 
 #include <vector>
 #include"Box.h"
-#include"Settings.h"
 #include"GameLevel.h"
 #include"Cat.h"
 #include"Menu.h"
@@ -53,7 +52,7 @@ private:
 	class Menu* menu;
 
 	vector<Box*> boxes;
-	bool isPlaying = false;
+	bool isMenuVisible = true;
 
 	bool isRunning = true;
 

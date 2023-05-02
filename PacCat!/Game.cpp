@@ -35,7 +35,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 
 	TTF_Init();
 
-	font = TTF_OpenFont("arial.ttf", 24);
+	font = TTF_OpenFont("./assets/arial.ttf", 24);
 
 	gamelevel = new GameLevel();
 	gamelevel->LoadLevel();
@@ -59,15 +59,15 @@ void Game::GameLoop() {
 	while (isRunning) {
 	
 		HandleEvents();
-		if (isPlaying) {
-			Update();
-			Draw();
-		}
-		else {
+		if (isMenuVisible) {
 			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 			SDL_RenderClear(renderer);
 			menu->Render();   // Vẽ màn hình menu
 			SDL_RenderPresent(renderer);
+		}
+		else {
+			Update();
+			Draw();
 		}
 	}
 
@@ -82,8 +82,13 @@ void Game::HandleEvents()
 		if (event.type == SDL_QUIT) {
 			isRunning = false;
 		}
-		isPlaying = menu->HandleEvent(&event);
-		if(isPlaying){
+		// Nếu đang hiển thị màn hình menu, kiểm tra sự kiện để chuyển sang màn hình chơi game
+		if (isMenuVisible) {
+			if (menu->HandleEvent(&event)) {
+				isMenuVisible = false;  // Chuyển sang màn hình chơi game
+			}
+		}
+		else{
 			if (event.type == SDL_KEYDOWN) {
 				switch (event.key.keysym.sym)
 				{
