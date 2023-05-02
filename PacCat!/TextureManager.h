@@ -1,6 +1,8 @@
 #pragma once
-
-#include "Game.h"
-	static SDL_Texture* LoadTexture(const char* fileName);
-	static void Draw(SDL_Texture* texture, const SDL_Rect& src, const SDL_Rect& dest);
-
+#ifndef _TEXTUREMANAGER_HEADER_INCLUDED_
+#define _TEXTUREMANAGER_HEADER_INCLUDED_
+#include <SDL.h>
+#include"Game.h"
+	 SDL_Texture* LoadTexture(const char* fileName);
+	 void Draw(SDL_Texture* texture, const SDL_Rect& src, const SDL_Rect& dest);
+#endif

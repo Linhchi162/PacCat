@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _KEYBOARDCONTROLLER_HEADER_INCLUDED_
+#define _KEYBOARDCONTROLLER_HEADER_INCLUDED_
 #include "Game.h"
 
 class KeyboardController
@@ -37,3 +39,4 @@ public:
 		}
 	}
 };
+#endif

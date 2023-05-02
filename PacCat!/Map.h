@@ -1,7 +1,9 @@
 #pragma once
+#ifndef _MAP_HEADER_INCLUDED_
+#define _MAP_HEADER_INCLUDED_
 #include "SDL.h"
+#include"Settings.h"
 
-static const int tilesCountX = 19, tilesCountY = 19;
 
 class Map
 {
@@ -25,3 +27,4 @@ public:
 	void LoadMap(int tiles[tilesCountX][tilesCountY]);
 	void DrawMap();
 };
+#endif

@@ -1,5 +1,7 @@
 #pragma once
-#include"Game.h"
+#ifndef _MATH_HEADER_INCLUDED_
+#define _MATH_HEADER_INCLUDED_
+#include"Settings.h"
 
 
 struct point
@@ -8,8 +10,8 @@ struct point
 };
 inline void CoordinatesToTiles(int& tileX, int& tileY, const float& coordX, const float& coordY)
 {
-    tileX = coordX / Game::TILE_SIZE;
-    tileY = coordY / Game::TILE_SIZE;
+    tileX = coordX / TILE_SIZE;
+    tileY = coordY / TILE_SIZE;
 }
 
 inline float distFromEdge(float a, const float& b)
@@ -74,3 +76,4 @@ inline float distBetweenTwoPoints(const float& x1Pos, const float& y1Pos, const 
 {
     return nthRoot(myPow(x2Pos - x1Pos, 2) + myPow(y2Pos - y1Pos, 2) * 1.0, 2); // Pi-ta-go
 }
+#endif

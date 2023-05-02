@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _GAME_HEADER_INCLUDED_
+#define _GAME_HEADER_INCLUDED_
 #include "SDL.h"
 #include "SDL_image.h"
 #include <iostream>
@@ -10,10 +12,6 @@
 class Game
 {
 public:
-	static const unsigned TILE_SIZE;
-	static const unsigned HALF_TILE_SIZE;
-	static const unsigned WINDOW_WIDTH;
-	static const unsigned WINDOW_HEIGHT;
 
 
 
@@ -23,10 +21,10 @@ public:
 	Game();
 	~Game();
 
-	static void PacmanCollidingWith(const Entity& ghost);
-	static bool IsPacmanInGhostHouse();
-	static void FrightenGhosts();
-	static void IncrementScore();
+	//static void PacmanCollidingWith(const Entity& ghost);
+	//static bool IsPacmanInGhostHouse();
+	//static void FrightenGhosts();
+	//static void IncrementScore();
 
 
 
@@ -45,3 +43,5 @@ private:
 
 	SDL_Window* window;
 };
+
+#endif

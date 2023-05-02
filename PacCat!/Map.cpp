@@ -22,16 +22,16 @@ int startingTiles[19][19] = { {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 
 Map::Map()
 {
-	free = TextureManager::LoadTexture("assets/free.png");
-	block = TextureManager::LoadTexture("assets/block.png");
-	dot = TextureManager::LoadTexture("assets/dot.png");
-	energizer = TextureManager::LoadTexture("assets/energizer.png");
+	free = LoadTexture("assets/free.png");
+	block = LoadTexture("assets/block.png");
+	dot = LoadTexture("assets/dot.png");
+	energizer = LoadTexture("assets/energizer.png");
 
 	LoadMap(startingTiles);
 
 	src.x = src.y = 0;
-	src.w = dest.w = Game::TILE_SIZE;
-	src.h = dest.h = Game::TILE_SIZE;
+	src.w = dest.w = TILE_SIZE;
+	src.h = dest.h = TILE_SIZE;
 
 	dest.x = dest.y = 0;
 }
@@ -68,22 +68,22 @@ void Map::DrawMap()
 
 void Map::DrawTile(const int& type, const int& row, const int& col)
 {
-	dest.x = col * Game::TILE_SIZE;
-	dest.y = row * Game::TILE_SIZE;
+	dest.x = col * TILE_SIZE;
+	dest.y = row * TILE_SIZE;
 
 	switch (type)
 	{
 	case 0:
-		TextureManager::Draw(free, src, dest);
+		Draw(free, src, dest);
 		break;
 	case 1:
-		TextureManager::Draw(block, src, dest);
+		Draw(block, src, dest);
 		break;
 	case 2:
-		TextureManager::Draw(dot, src, dest);
+		Draw(dot, src, dest);
 		break;
 	case 3:
-		TextureManager::Draw(energizer, src, dest);
+		Draw(energizer, src, dest);
 	default:
 		break;
 	}

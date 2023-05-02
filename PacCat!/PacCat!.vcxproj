@@ -138,6 +138,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="PacManController.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
