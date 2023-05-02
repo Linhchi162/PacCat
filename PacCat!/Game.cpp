@@ -40,15 +40,17 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	gamelevel = new GameLevel();
 	gamelevel->LoadLevel();
 
-
+	resetTexture = LoadText("Reset", { 0, 255, 255 }, font, renderer);
 	wallTexture = LoadTexture("./assets/wall.png", renderer);
 	groundTexture = LoadTexture("./assets/ground.png", renderer);
 	boxTexture = LoadTexture("./assets/box.png", renderer);
 	goalTexture = LoadTexture("./assets/goal.png", renderer);
 
 	menu = new Menu(renderer, font);
-
 	cat = new Cat(this, renderer);
+	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 300, 300, 40, 40 };
+	resetButton = new Button(renderer, resetTexture, resetButtonRect);
+	
 
 	InitLevel();
 
@@ -89,6 +91,10 @@ void Game::HandleEvents()
 			}
 		}
 		else{
+			if (resetButton->IsClicked()) {
+				DestroyBoxes();
+				InitLevel();
+			}
 			if (event.type == SDL_KEYDOWN) {
 				switch (event.key.keysym.sym)
 				{
@@ -114,6 +120,7 @@ void Game::HandleEvents()
 				default:
 					break;
 				}
+				
 			}
 		}
 	}
@@ -156,13 +163,13 @@ void Game::Draw()
 		}
 	}
 
-	// Draw boxes
+	// vẽ box
 	for (int i = 0; i < boxes.size(); i++) {
 		SDL_RenderCopy(renderer, boxTexture, NULL, boxes[i]->GetRect());
 	}
 
 	cat->Draw(renderer);
-
+	resetButton->Render();
 	SDL_RenderPresent(renderer);
 }
 
@@ -269,6 +276,8 @@ void Game::Shutdown() {
 	SDL_DestroyTexture(groundTexture);
 	SDL_DestroyTexture(boxTexture);
 	SDL_DestroyTexture(goalTexture);
+	SDL_DestroyTexture(resetTexture);
+	delete resetButton;
 	TTF_CloseFont(font);
 
 	SDL_DestroyRenderer(renderer);

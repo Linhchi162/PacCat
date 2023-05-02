@@ -41,6 +41,7 @@ private:
 
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
+	SDL_Texture* resetTexture = nullptr;
 	SDL_Texture* wallTexture = nullptr;
 	SDL_Texture* groundTexture = nullptr;
 	SDL_Texture* boxTexture = nullptr;
@@ -50,6 +51,7 @@ private:
 	class GameLevel* gamelevel;
 	class Cat* cat;
 	class Menu* menu;
+	class Button* resetButton;
 
 	vector<Box*> boxes;
 	bool isMenuVisible = true;
