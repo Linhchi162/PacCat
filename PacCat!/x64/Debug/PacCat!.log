@@ -1,5 +1,7 @@
-﻿  Game.cpp
-  LTexture.cpp
-  main'.cpp
-  Generating Code...
-  PacCat!.vcxproj -> C:\PacCat-\PacCat\PacCat!\x64\Debug\PacCat!.exe
+﻿main'.obj : error LNK2005: "struct SDL_Texture * __cdecl LoadText(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,struct SDL_Color,struct _TTF_Font *,struct SDL_Renderer *)" (?LoadText@@YAPEAUSDL_Texture@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USDL_Color@@PEAU_TTF_Font@@PEAUSDL_Renderer@@@Z) already defined in Game.obj
+main'.obj : error LNK2005: "struct SDL_Texture * __cdecl LoadTexture(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,struct SDL_Renderer *)" (?LoadTexture@@YAPEAUSDL_Texture@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAUSDL_Renderer@@@Z) already defined in Game.obj
+main'.obj : error LNK2005: "void __cdecl RenderTexture(struct SDL_Renderer *,struct SDL_Texture *,int,int,int,int)" (?RenderTexture@@YAXPEAUSDL_Renderer@@PEAUSDL_Texture@@HHHH@Z) already defined in Game.obj
+Cat.obj : error LNK2005: "struct SDL_Texture * __cdecl LoadText(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,struct SDL_Color,struct _TTF_Font *,struct SDL_Renderer *)" (?LoadText@@YAPEAUSDL_Texture@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USDL_Color@@PEAU_TTF_Font@@PEAUSDL_Renderer@@@Z) already defined in Game.obj
+Cat.obj : error LNK2005: "struct SDL_Texture * __cdecl LoadTexture(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,struct SDL_Renderer *)" (?LoadTexture@@YAPEAUSDL_Texture@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PEAUSDL_Renderer@@@Z) already defined in Game.obj
+Cat.obj : error LNK2005: "void __cdecl RenderTexture(struct SDL_Renderer *,struct SDL_Texture *,int,int,int,int)" (?RenderTexture@@YAXPEAUSDL_Renderer@@PEAUSDL_Texture@@HHHH@Z) already defined in Game.obj
+C:\PacCat-\PacCat\PacCat!\x64\Debug\PacCat!.exe : fatal error LNK1169: one or more multiply defined symbols found

@@ -136,6 +136,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLevel.h" />
     <ClInclude Include="Cat.h" />
+    <ClInclude Include="LText.h" />
     <ClInclude Include="LTexture.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Settings.h" />
@@ -144,7 +145,6 @@
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameLevel.cpp" />
-    <ClCompile Include="LTexture.cpp" />
     <ClCompile Include="main%27.cpp" />
     <ClCompile Include="Cat.cpp" />
   </ItemGroup>

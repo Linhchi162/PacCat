@@ -1,4 +1,4 @@
-
+﻿
 #include "Game.h"
 
 
@@ -10,6 +10,7 @@ Game::~Game()
 
 bool Game::Init()
 {
+
 if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		cout << "SDL failed to initialize: " << SDL_GetError() << endl;
 		return false;
@@ -32,6 +33,10 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		return false;
 	}
 
+	TTF_Init();
+
+	font = TTF_OpenFont("arial.ttf", 24);
+
 	gamelevel = new GameLevel();
 	gamelevel->LoadLevel();
 
@@ -41,6 +46,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	boxTexture = LoadTexture("./assets/box.png", renderer);
 	goalTexture = LoadTexture("./assets/goal.png", renderer);
 
+	menu = new Menu(renderer, font);
 
 	cat = new Cat(this, renderer);
 
@@ -51,9 +57,18 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 
 void Game::GameLoop() {
 	while (isRunning) {
+	
 		HandleEvents();
-		Update();
-		Draw();
+		if (isPlaying) {
+			Update();
+			Draw();
+		}
+		else {
+			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+			SDL_RenderClear(renderer);
+			menu->Render();   // Vẽ màn hình menu
+			SDL_RenderPresent(renderer);
+		}
 	}
 
 }
@@ -67,31 +82,33 @@ void Game::HandleEvents()
 		if (event.type == SDL_QUIT) {
 			isRunning = false;
 		}
-
-		if (event.type == SDL_KEYDOWN) {
-			switch (event.key.keysym.sym)
-			{
-			case SDLK_RIGHT:
-				cat->Move(1, 0);
-				break;
-			case SDLK_LEFT:
-				cat->Move(-1, 0);
-				break;
-			case SDLK_DOWN:
-				cat->Move(0, 1);
-				break;
-			case SDLK_UP:
-				cat->Move(0, -1);
-				break;
-			case SDLK_r:
-				DestroyBoxes();
-				InitLevel();
-				break;
-			case SDLK_s:
-				GoToNextLevel();
-				break;
-			default:
-				break;
+		isPlaying = menu->HandleEvent(&event);
+		if(isPlaying){
+			if (event.type == SDL_KEYDOWN) {
+				switch (event.key.keysym.sym)
+				{
+				case SDLK_RIGHT:
+					cat->Move(1, 0);
+					break;
+				case SDLK_LEFT:
+					cat->Move(-1, 0);
+					break;
+				case SDLK_DOWN:
+					cat->Move(0, 1);
+					break;
+				case SDLK_UP:
+					cat->Move(0, -1);
+					break;
+				case SDLK_r:
+					DestroyBoxes();
+					InitLevel();
+					break;
+				case SDLK_s:
+					GoToNextLevel();
+					break;
+				default:
+					break;
+				}
 			}
 		}
 	}
@@ -116,6 +133,7 @@ void Game::Draw()
 {
 	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 	SDL_RenderClear(renderer);
+
 
 	for (int r = 0; r < TILE_ROWS; r++) {
 		for (int c = 0; c < TILE_COLS; c++) {
@@ -246,11 +264,13 @@ void Game::Shutdown() {
 	SDL_DestroyTexture(groundTexture);
 	SDL_DestroyTexture(boxTexture);
 	SDL_DestroyTexture(goalTexture);
+	TTF_CloseFont(font);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 
 	IMG_Quit();
+	TTF_Quit();
 	SDL_Quit();
 }
 

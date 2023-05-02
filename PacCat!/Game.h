@@ -5,8 +5,7 @@
 #include"Settings.h"
 #include"GameLevel.h"
 #include"Cat.h"
-#include"LTexture.h"
-
+#include"Menu.h"
 
 class Game
 {
@@ -47,12 +46,14 @@ private:
 	SDL_Texture* groundTexture = nullptr;
 	SDL_Texture* boxTexture = nullptr;
 	SDL_Texture* goalTexture = nullptr;
+	TTF_Font* font = nullptr;
 
 	class GameLevel* gamelevel;
 	class Cat* cat;
+	class Menu* menu;
 
 	vector<Box*> boxes;
-
+	bool isPlaying = false;
 
 	bool isRunning = true;
 
