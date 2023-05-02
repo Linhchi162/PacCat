@@ -132,19 +132,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.h" />
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="KeyboardController.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="Math.h" />
     <ClInclude Include="PacManController.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Box.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main%27.cpp" />
-    <ClCompile Include="Map.cpp" />
     <ClCompile Include="PacmanController.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
