@@ -5,7 +5,8 @@
 #include "SDL_image.h"
 #include <iostream>
 #include <vector>
-#include"Map.h"
+#include"Box.h"
+#include<string>
 
 
 
@@ -14,34 +15,39 @@ class Game
 public:
 
 
-
-	static Map* map;
-
-	static bool isRunning;
 	Game();
 	~Game();
 
-	//static void PacmanCollidingWith(const Entity& ghost);
-	//static bool IsPacmanInGhostHouse();
-	//static void FrightenGhosts();
-	//static void IncrementScore();
+	bool Init();
+	void GameLoop();
+	void Shutdown();
+	bool BoxUpdated(int moveX, int moveY, int pX, int pY);
 
 
 
-	void init(const char* title, int width, int height, bool fullscreen);
+private:
 
+	SDL_Texture* LoadTexture(string path);
 	void handleEvents();
 	void update();
 	bool running() { return isRunning; }
 	void render();
 	void clean();
 
-	static SDL_Renderer* renderer;
-	static SDL_Event event;
+	SDL_Window* window = nullptr;
+	SDL_Renderer* renderer = nullptr;
+	SDL_Texture* wallTexture = nullptr;
+	SDL_Texture* groundTexture = nullptr;
+	SDL_Texture* boxTexture = nullptr;
 
-private:
 
-	SDL_Window* window;
+	class LevelManager* levelManager;
+
+	vector<Box*> boxes;
+
+
+	bool isRunning = true;
+
 };
 
 #endif
