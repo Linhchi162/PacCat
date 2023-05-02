@@ -25,5 +25,15 @@ void GameLevel::LoadLevel() {
 }
 
 void GameLevel::UpdateLevel() {
-	currentLevel++;
+	if (currentLevel < 5)
+	{
+		currentLevel++;
+	}
+}
+void GameLevel::PreviousLevel()
+{
+	if (currentLevel > 1)
+	{
+		currentLevel--;
+	}
 }

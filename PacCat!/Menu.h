@@ -12,7 +12,7 @@ class Menu {
 public:
     Menu(SDL_Renderer* renderer, TTF_Font* font) : renderer(renderer), font(font) {
         // Load background texture
-        backgroundTexture = LoadTexture("background.png", renderer);
+        backgroundTexture = LoadTexture("./assets/background.png", renderer);
 
         // Load button textures
         startTexture = LoadText("Start", { 255, 255, 255 }, font, renderer);

@@ -7,7 +7,7 @@ Box::Box(int x, int y)
 
 Box::~Box()
 {
-	cout << "calling box destructor" << endl;
+
 }
 
 void Box::Update(int x, int y, bool complete)

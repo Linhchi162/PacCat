@@ -10,6 +10,7 @@ class GameLevel
 public:
 	void LoadLevel();
 	void UpdateLevel();
+	void PreviousLevel();
 	char levelMap[TILE_ROWS][TILE_COLS] = { '0' };
 
 private:

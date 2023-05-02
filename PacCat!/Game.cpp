@@ -35,12 +35,15 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 
 	TTF_Init();
 
-	font = TTF_OpenFont("./assets/arial.ttf", 24);
+	font = TTF_OpenFont("./assets/arial.ttf", 50);
 
 	gamelevel = new GameLevel();
 	gamelevel->LoadLevel();
 
+	
 	resetTexture = LoadText("Reset", { 0, 255, 255 }, font, renderer);
+
+	youWin = LoadTexture("./assets/background.png", renderer);
 	wallTexture = LoadTexture("./assets/wall.png", renderer);
 	groundTexture = LoadTexture("./assets/ground.png", renderer);
 	boxTexture = LoadTexture("./assets/box.png", renderer);
@@ -48,7 +51,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 
 	menu = new Menu(renderer, font);
 	cat = new Cat(this, renderer);
-	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 300, 300, 40, 40 };
+	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 300, 300, 50, 20 };
 	resetButton = new Button(renderer, resetTexture, resetButtonRect);
 	
 
@@ -70,7 +73,9 @@ void Game::GameLoop() {
 		else {
 			Update();
 			Draw();
+			
 		}
+		
 	}
 
 }
@@ -110,13 +115,11 @@ void Game::HandleEvents()
 				case SDLK_UP:
 					cat->Move(0, -1);
 					break;
-				case SDLK_r:
-					DestroyBoxes();
-					InitLevel();
-					break;
-				case SDLK_s:
+				case SDLK_n:
 					GoToNextLevel();
 					break;
+				case SDLK_p:
+					GoToPreviousLevel();
 				default:
 					break;
 				}
@@ -270,6 +273,16 @@ void Game::GoToNextLevel() {
 
 	InitLevel();
 }
+void Game::GoToPreviousLevel()
+{
+	DestroyBoxes();
+	gamelevel->PreviousLevel();
+	gamelevel->LoadLevel();
+
+	InitLevel();
+
+
+}
 
 void Game::Shutdown() {
 	SDL_DestroyTexture(wallTexture);
@@ -277,6 +290,7 @@ void Game::Shutdown() {
 	SDL_DestroyTexture(boxTexture);
 	SDL_DestroyTexture(goalTexture);
 	SDL_DestroyTexture(resetTexture);
+	SDL_DestroyTexture(youWin);
 	delete resetButton;
 	TTF_CloseFont(font);
 

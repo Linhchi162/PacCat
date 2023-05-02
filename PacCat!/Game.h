@@ -36,6 +36,7 @@ private:
 	void DestroyBoxes();
 	void InitLevel();
 	void GoToNextLevel();
+	void GoToPreviousLevel();
 	bool CanPushBox(Box* box, int x, int y);
 
 
@@ -46,6 +47,7 @@ private:
 	SDL_Texture* groundTexture = nullptr;
 	SDL_Texture* boxTexture = nullptr;
 	SDL_Texture* goalTexture = nullptr;
+	SDL_Texture* youWin = nullptr;
 	TTF_Font* font = nullptr;
 
 	class GameLevel* gamelevel;
@@ -55,8 +57,8 @@ private:
 
 	vector<Box*> boxes;
 	bool isMenuVisible = true;
-
 	bool isRunning = true;
+	bool allGoalsComplete = false;
 
 };
 
