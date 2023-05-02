@@ -1,23 +1,5 @@
 
-#include"Collision.h"
-#include"KeyboardController.h"
-#include"Math.h"
-#include"PacManController.h"
-#include <string>
-
-
-
-SDL_Event Game::event;
-Map* Game::map = nullptr;
-SDL_Renderer* Game::renderer = nullptr;
-
-
-
-
-
-PacmanController* pacman;
-
-bool Game::isRunning = false;
+#include "Game.h"
 
 
 Game::Game()
@@ -25,107 +7,94 @@ Game::Game()
 
 Game::~Game()
 {}
-/*void RegisterComponents()
+
+bool Game::Init()
 {
-	engine.RegisterComponent<Transform>();
-	engine.RegisterComponent<TextureRenderer>();
-	engine.RegisterComponent<Collider>();
-	engine.RegisterComponent<KeyboardController>();
-	engine.RegisterComponent<PacmanController>();
-}
-
-void RegisterSystems()
-{
-	renderSystem = engine.RegisterSystem<RenderSystem>();
-	collisionSystem = engine.RegisterSystem<CollisionSystem>();
-}
-
-void SetSystemsSignatures()
-{
-	Signature renderSignature;
-	renderSignature.set(engine.GetComponentType<TextureRenderer>());
-	engine.SetSystemSignature<RenderSystem>(renderSignature);
-
-	Signature collideSignature;
-	collideSignature.set(engine.GetComponentType<Collider>());
-	engine.SetSystemSignature<Collider>(collideSignature);
-}
-
-void InitPacman()
-{
-	Entity pacmanEntity = engine.CreateEntity();
-
-	engine.AddComponent(pacmanEntity, Transform{ PACMAN_START_XPOS, PACMAN_START_YPOS, Game::TILE_SIZE, Game::TILE_SIZE });
-	engine.AddComponent(pacmanEntity, TextureRenderer{ TextureManager::LoadTexture("assets/Pacman/lookingRight.png") });
-	engine.AddComponent(pacmanEntity, Collider{ { 0, 0, COLLIDER_BOX_SIZE, COLLIDER_BOX_SIZE} });
-	engine.AddComponent(pacmanEntity, KeyboardController{ false, false, false, false });
-	engine.AddComponent(pacmanEntity, PacmanController(pacmanSpeed, engine, pacmanEntity));
-
-	pacman = &engine.GetComponent<PacmanController>(pacmanEntity);
-}*/
-
-void Game::init(const char* title, int width, int height, bool fullscreen)
-{
-	int flags = 0;
-
-	if (fullscreen)
-	{
-		flags = SDL_WINDOW_FULLSCREEN;
+if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
+		cout << "SDL failed to initialize: " << SDL_GetError() << endl;
+		return false;
 	}
 
-	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
-	{
-		window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, flags);
-		renderer = SDL_CreateRenderer(window, -1, 0);
-		if (renderer)
-		{
-			SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	if (IMG_Init(IMG_INIT_PNG) == 0) {
+		cout << "SDL_Image failed to initialize: " << IMG_GetError() << endl;
+		return false;
+	}
+
+	window = SDL_CreateWindow("PacCat", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	if (!window) {
+		cout << "Window failed to initialize: " << SDL_GetError() << endl;
+		return false;
+	}
+
+	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (!renderer) {
+		cout << "Renderer failed to initialize: " << SDL_GetError() << endl;
+		return false;
+	}
+
+	gamelevel = new GameLevel();
+	gamelevel->LoadLevel();
+
+
+	wallTexture = LoadTexture("Assets/wall.png");
+	groundTexture = LoadTexture("Assets/ground.png");
+	boxTexture = LoadTexture("Assets/box.png");
+	goalTexture = LoadTexture("Assets/goal.png");
+
+
+	cat = new Cat(this);
+
+	InitLevel();
+
+	return true;
+}
+
+void Game::GameLoop() {
+	while (isRunning) {
+		HandleEvents();
+		Update();
+		Draw();
+	}
+
+}
+
+
+void Game::HandleEvents()
+{
+	SDL_Event event;
+
+	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) {
+			isRunning = false;
 		}
 
-		isRunning = true;
-	}
-	//engine.Init();
-
-	//RegisterComponents();
-	//RegisterSystems();
-	//SetSystemsSignatures();
-
-
-	map = new Map();
-
-
-	//engine.CreateEntity();
-
-	//InitPacman();
-	
-
+		if (event.type == SDL_KEYDOWN) {
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_RIGHT:
+				cat->Move(1, 0);
+				break;
+			case SDLK_LEFT:
+				cat->Move(-1, 0);
+				break;
+			case SDLK_DOWN:
+				cat->Move(0, 1);
+				break;
+			case SDLK_UP:
+				cat->Move(0, -1);
+				break;
+			case SDLK_r:
+				DestroyBoxes();
+				InitLevel();
+				break;
+			case SDLK_s:
+				GoToNextLevel();
+				break;
+			default:
+				break;
+			}
+		}
 }
-
-
-void Game::handleEvents()
-{
-
-	SDL_PollEvent(&event);
-
-	switch (event.type)
-	{
-	case SDL_QUIT:
-		isRunning = false;
-		break;
-	default:
-		break;
-	}
-}
-/*bool Game::IsPacmanInGhostHouse()
-{
-	int pacmanTileX = 0;
-	int pacmanTileY = 0;
-
-	CoordinatesToTiles(pacmanTileX, pacmanTileY, pacman->GetPosX(), pacman->GetPosY());
-
-	return (pacmanTileX == 8 || pacmanTileX == 9 || pacmanTileX == 10) // Currently fixed. Changes in map might require changes here!
-		&& (pacmanTileY == 8 || pacmanTileY == 9 || pacmanTileY == 10);
-}*/
 
 
 
