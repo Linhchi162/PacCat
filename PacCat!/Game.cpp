@@ -33,15 +33,11 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		return false;
 	}
 
-	TTF_Init();
-
-	font = TTF_OpenFont("./assets/arial.ttf", 50);
-
 	gamelevel = new GameLevel();
 	gamelevel->LoadLevel();
 
 	
-	resetTexture = LoadText("Reset", { 0, 255, 255 }, font, renderer);
+	resetTexture = LoadTexture("./assets/start.png", renderer);
 
 	youWin = LoadTexture("./assets/background.png", renderer);
 	wallTexture = LoadTexture("./assets/wall.png", renderer);
@@ -51,7 +47,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 
 	menu = new Menu(renderer);
 	cat = new Cat(this, renderer);
-	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 300, 300, 50, 20 };
+	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 310, SCREEN_HEIGHT/2 - 310, 50, 20 };
 	resetButton = new Button(renderer, resetTexture, resetButtonRect);
 	
 
