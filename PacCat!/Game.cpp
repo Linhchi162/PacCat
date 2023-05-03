@@ -37,7 +37,9 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	gamelevel->LoadLevel();
 
 	
-	resetTexture = LoadTexture("./assets/start.png", renderer);
+	resetTexture = LoadTexture("./assets/play.png", renderer);
+	menuTexture = LoadTexture("./assets/help.png", renderer);
+
 
 	youWin = LoadTexture("./assets/background.png", renderer);
 	wallTexture = LoadTexture("./assets/Artboard 1.png", renderer);
@@ -47,8 +49,10 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 
 	menu = new Menu(renderer);
 	cat = new Cat(this, renderer);
-	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 310, SCREEN_HEIGHT/2 - 310, 50, 20 };
+	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 310, SCREEN_HEIGHT/2 - 310, 64, 64 };
+	SDL_Rect menuButtonRect = { SCREEN_WIDTH / 2 - 310, SCREEN_HEIGHT / 2 - 210, 64, 64 };
 	resetButton = new Button(renderer, resetTexture, resetButtonRect);
+	menuButton = new Button(renderer, menuTexture, menuButtonRect);
 	
 
 	InitLevel();
@@ -68,6 +72,7 @@ void Game::GameLoop() {
 			if (menu->IsStartPressed()) {
 			
 				SDL_Delay(500);
+				menu->SetStartPressed(false);
 				isMenuVisible = false;  // Chuyển sang màn hình chơi game
 			}
 		}
@@ -101,6 +106,10 @@ void Game::HandleEvents()
 			if (resetButton->IsClicked()) {
 				DestroyBoxes();
 				InitLevel();
+			}
+			if (menuButton->IsClicked())
+			{
+				isMenuVisible = true;
 			}
 			if (event.type == SDL_KEYDOWN) {
 				switch (event.key.keysym.sym)
@@ -173,6 +182,7 @@ void Game::Draw()
 	}
 
 	cat->Draw(renderer);
+	menuButton->Render();
 	resetButton->Render();
 	SDL_RenderPresent(renderer);
 }
@@ -240,7 +250,6 @@ bool Game::AllGoalsComplete() {
 			return false;
 		}
 	}
-		SDL_Delay(1000);
 
 		// Draw the win screen before updating to the next level
 		SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
@@ -249,7 +258,7 @@ bool Game::AllGoalsComplete() {
 		SDL_RenderPresent(renderer);
 
 		// Wait for an additional 0.6 second before changing to the next level
-		SDL_Delay(600);
+		SDL_Delay(1000);
 
 		return true;
 	
@@ -274,6 +283,13 @@ void Game::InitLevel() {
 				boxes.emplace_back(new Box(c, r));
 			}
 		}
+	}
+	if (gamelevel->GetCurrentLevel() > gamelevel->GetTotalLevel()) {
+		// Nếu đã hoàn thành tất cả các level, bắt đầu lại từ level đầu tiên
+		DestroyBoxes();
+		gamelevel->ResetLevel();
+		InitLevel();
+		
 	}
 }
 

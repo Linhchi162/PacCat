@@ -43,6 +43,7 @@ private:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 	SDL_Texture* resetTexture = nullptr;
+	SDL_Texture* menuTexture = nullptr;
 	SDL_Texture* wallTexture = nullptr;
 	SDL_Texture* groundTexture = nullptr;
 	SDL_Texture* boxTexture = nullptr;
