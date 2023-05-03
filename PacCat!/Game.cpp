@@ -42,6 +42,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 
 
 	youWin = LoadTexture("./assets/background.png", renderer);
+	levelclear = LoadTexture("./assets/levelClear.png", renderer);
 	wallTexture = LoadTexture("./assets/Artboard 1.png", renderer);
 	groundTexture = LoadTexture("./assets/ground.png", renderer);
 	boxTexture = LoadTexture("./assets/box.png", renderer);
@@ -250,18 +251,19 @@ bool Game::AllGoalsComplete() {
 			return false;
 		}
 	}
-
+	if (gamelevel->GetCurrentLevel() < gamelevel->GetTotalLevel())
+	{
 		// Draw the win screen before updating to the next level
 		SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 		SDL_RenderClear(renderer);
 		SDL_RenderCopy(renderer, youWin, NULL, NULL);
 		SDL_RenderPresent(renderer);
 
-		// Wait for an additional 0.6 second before changing to the next level
+		// Wait for an additional 1 second before changing to the next level
 		SDL_Delay(1000);
-
+	}
 		return true;
-	
+
 }
 void Game::DestroyBoxes() {
 	// Clean vector
@@ -286,9 +288,17 @@ void Game::InitLevel() {
 	}
 	if (gamelevel->GetCurrentLevel() > gamelevel->GetTotalLevel()) {
 		// Nếu đã hoàn thành tất cả các level, bắt đầu lại từ level đầu tiên
+		SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, levelclear, NULL, NULL);
+		SDL_RenderPresent(renderer);
+
+
+		SDL_Delay(3000);
 		DestroyBoxes();
 		gamelevel->ResetLevel();
 		InitLevel();
+		isMenuVisible = true;
 		
 	}
 }
@@ -320,6 +330,8 @@ void Game::Shutdown() {
 	SDL_DestroyTexture(goalTexture);
 	SDL_DestroyTexture(resetTexture);
 	SDL_DestroyTexture(youWin);
+	SDL_DestroyTexture(levelclear);
+
 	delete resetButton;
 
 	SDL_DestroyRenderer(renderer);
