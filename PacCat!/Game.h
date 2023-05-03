@@ -52,6 +52,7 @@ private:
 	class Cat* cat;
 	class Menu* menu;
 	class Button* resetButton;
+	class Button* menuButton;
 
 	vector<Box*> boxes;
 	bool isMenuVisible = true;

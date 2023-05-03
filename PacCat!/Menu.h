@@ -23,7 +23,7 @@ public:
 
 
         helpTexture = LoadTexture("./assets/help.png", renderer);
-        PressedHelpTexture = LoadTexture("./assets/PressedPlay.png", renderer);
+        PressedHelpTexture = LoadTexture("./assets/PressedHelp.png", renderer);
         helpButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT / 2 + 100 , 64, 64 };
         helpButton = new Button(renderer, helpTexture, helpButtonRect);
 
@@ -81,7 +81,7 @@ public:
     }
 
     void Render() {
-        // Render background
+        // Render background and logo
         SDL_RenderCopy(renderer, backgroundTexture,&rbg, NULL);
         SDL_RenderCopy(renderer, Logo, NULL, &LogoRect);
 

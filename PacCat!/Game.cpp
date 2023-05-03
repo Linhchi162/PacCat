@@ -248,7 +248,7 @@ bool Game::AllGoalsComplete() {
 		SDL_RenderCopy(renderer, youWin, NULL, NULL);
 		SDL_RenderPresent(renderer);
 
-		// Wait for an additional 1 second before changing to the next level
+		// Wait for an additional 0.6 second before changing to the next level
 		SDL_Delay(600);
 
 		return true;
