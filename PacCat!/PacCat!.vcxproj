@@ -137,7 +137,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameLevel.h" />
     <ClInclude Include="Cat.h" />
-    <ClInclude Include="LText.h" />
     <ClInclude Include="LTexture.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Settings.h" />

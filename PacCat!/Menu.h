@@ -2,7 +2,6 @@
 #include<SDL.h>
 #include"Button.h"
 #include"Settings.h"
-#include"LText.h"
 
 
 
@@ -13,18 +12,19 @@ public:
     Menu(SDL_Renderer* renderer) : renderer(renderer) {
         // Load background texture
         backgroundTexture = LoadTexture("./assets/background.png", renderer);
+        Logo = LoadTexture("./assets/wall.png", renderer);
 
         // Load button textures
-        startTexture = LoadTexture("./assets/start.png", renderer);
-        PressedStartTexture = LoadTexture("./assets/PressedStart.png", renderer);
-        startButtonRect = { SCREEN_WIDTH / 3, SCREEN_HEIGHT/ 2, 64, 64 };
+        startTexture = LoadTexture("./assets/play.png", renderer);
+        PressedStartTexture = LoadTexture("./assets/PressedPlay.png", renderer);
+        startButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT/ 2, 64, 64 };
         startButton = new Button(renderer, startTexture, startButtonRect);
 
 
 
         helpTexture = LoadTexture("./assets/help.png", renderer);
         PressedHelpTexture = LoadTexture("./assets/PressedHelp.png", renderer);
-        helpButtonRect = { SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2 + 100, 64, 64 };
+        helpButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT / 2 + 100 , 64, 64 };
         helpButton = new Button(renderer, helpTexture, helpButtonRect);
 
     }
@@ -35,6 +35,7 @@ public:
         SDL_DestroyTexture(PressedStartTexture);
         SDL_DestroyTexture(helpTexture);
         SDL_DestroyTexture(PressedHelpTexture);
+        SDL_DestroyTexture(Logo);
         delete startButton;
         delete helpButton;
     }
@@ -60,6 +61,7 @@ public:
     void Render() {
         // Render background
         SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+        SDL_RenderCopy(renderer, Logo, NULL, &LogoRect);
 
         if (startButton->IsClicked()) {
             SetStartPressed(true);
@@ -103,6 +105,7 @@ private:
     SDL_Renderer* renderer;
 
     SDL_Texture* backgroundTexture;
+    SDL_Texture* Logo;
 
     SDL_Texture* startTexture;
     SDL_Texture* PressedStartTexture;
@@ -110,6 +113,7 @@ private:
     SDL_Texture* helpTexture;
     SDL_Texture* PressedHelpTexture;
     
+    SDL_Rect LogoRect = { 320,100,32,32 };
     SDL_Rect startButtonRect;
     SDL_Rect helpButtonRect;
 

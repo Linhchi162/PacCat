@@ -48,8 +48,6 @@ private:
 	SDL_Texture* boxTexture = nullptr;
 	SDL_Texture* goalTexture = nullptr;
 	SDL_Texture* youWin = nullptr;
-	TTF_Font* font = nullptr;
-
 	class GameLevel* gamelevel;
 	class Cat* cat;
 	class Menu* menu;

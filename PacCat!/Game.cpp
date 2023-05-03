@@ -40,7 +40,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	resetTexture = LoadTexture("./assets/start.png", renderer);
 
 	youWin = LoadTexture("./assets/background.png", renderer);
-	wallTexture = LoadTexture("./assets/wall.png", renderer);
+	wallTexture = LoadTexture("./assets/Artboard 1.png", renderer);
 	groundTexture = LoadTexture("./assets/ground.png", renderer);
 	boxTexture = LoadTexture("./assets/box.png", renderer);
 	goalTexture = LoadTexture("./assets/goal.png", renderer);
@@ -249,7 +249,7 @@ bool Game::AllGoalsComplete() {
 		SDL_RenderPresent(renderer);
 
 		// Wait for an additional 1 second before changing to the next level
-		SDL_Delay(1000);
+		SDL_Delay(600);
 
 		return true;
 	
@@ -305,13 +305,11 @@ void Game::Shutdown() {
 	SDL_DestroyTexture(resetTexture);
 	SDL_DestroyTexture(youWin);
 	delete resetButton;
-	TTF_CloseFont(font);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 
 	IMG_Quit();
-	TTF_Quit();
 	SDL_Quit();
 }
 

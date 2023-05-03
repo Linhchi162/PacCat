@@ -36,9 +36,6 @@
     <ClInclude Include="LTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LText.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
