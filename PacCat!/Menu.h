@@ -17,14 +17,14 @@ public:
         // Load button textures
         startTexture = LoadTexture("./assets/start.png", renderer);
         PressedStartTexture = LoadTexture("./assets/PressedStart.png", renderer);
-        startButtonRect = { SCREEN_WIDTH / 2 - 128, 200, 64, 64 };
+        startButtonRect = { SCREEN_WIDTH / 3, SCREEN_HEIGHT/ 2, 64, 64 };
         startButton = new Button(renderer, startTexture, startButtonRect);
 
 
 
         helpTexture = LoadTexture("./assets/help.png", renderer);
         PressedHelpTexture = LoadTexture("./assets/PressedHelp.png", renderer);
-        helpButtonRect = { SCREEN_WIDTH / 2 - 128, 300, 64, 64 };
+        helpButtonRect = { SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2 + 100, 64, 64 };
         helpButton = new Button(renderer, helpTexture, helpButtonRect);
 
     }

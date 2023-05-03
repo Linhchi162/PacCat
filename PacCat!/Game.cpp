@@ -70,6 +70,7 @@ void Game::GameLoop() {
 			menu->Render();   // Vẽ màn hình menu
 			SDL_RenderPresent(renderer);
 			if (menu->IsStartPressed()) {
+			
 				SDL_Delay(1500);
 				isMenuVisible = false;  // Chuyển sang màn hình chơi game
 			}
@@ -141,7 +142,6 @@ void Game::HandleEvents()
 		isRunning = false;
 	}
 }
-
 
 
 void Game::Update()
