@@ -67,7 +67,7 @@ void Game::GameLoop() {
 			SDL_RenderPresent(renderer);
 			if (menu->IsStartPressed()) {
 			
-				SDL_Delay(1500);
+				SDL_Delay(500);
 				isMenuVisible = false;  // Chuyển sang màn hình chơi game
 			}
 		}
@@ -234,13 +234,25 @@ bool Game::HitGoal(int x, int y) {
 }
 
 bool Game::AllGoalsComplete() {
+
 	for (int i = 0; i < boxes.size(); i++) {
 		if (!boxes[i]->GetInGoal()) {
 			return false;
 		}
 	}
+		SDL_Delay(1000);
 
-	return true;
+		// Draw the win screen before updating to the next level
+		SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+		SDL_RenderClear(renderer);
+		SDL_RenderCopy(renderer, youWin, NULL, NULL);
+		SDL_RenderPresent(renderer);
+
+		// Wait for an additional 1 second before changing to the next level
+		SDL_Delay(1000);
+
+		return true;
+	
 }
 void Game::DestroyBoxes() {
 	// Clean vector
