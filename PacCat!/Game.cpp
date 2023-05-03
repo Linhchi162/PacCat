@@ -69,6 +69,10 @@ void Game::GameLoop() {
 			SDL_RenderClear(renderer);
 			menu->Render();   // Vẽ màn hình menu
 			SDL_RenderPresent(renderer);
+			if (menu->IsStartPressed()) {
+				SDL_Delay(1500);
+				isMenuVisible = false;  // Chuyển sang màn hình chơi game
+			}
 		}
 		else {
 			Update();
@@ -90,9 +94,10 @@ void Game::HandleEvents()
 			isRunning = false;
 		}
 		// Nếu đang hiển thị màn hình menu, kiểm tra sự kiện để chuyển sang màn hình chơi game
-		if (isMenuVisible) {
-			if (menu->HandleEvent(&event)) {
-				isMenuVisible = false;  // Chuyển sang màn hình chơi game
+		if (isMenuVisible ) {
+			if (menu->HandleEvent(&event) && !menu->IsStartPressed()) {
+				menu->SetStartPressed(true);
+				
 			}
 		}
 		else{

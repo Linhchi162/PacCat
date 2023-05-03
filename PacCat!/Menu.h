@@ -38,31 +38,39 @@ public:
         delete startButton;
         delete helpButton;
     }
+    void SetStartPressed(bool value) {
+        isStartPressed = value;
+        if (value) {
+            startButton->SetTexture(PressedStartTexture);
+        }
+        else {
+            startButton->SetTexture(startTexture);
+        }
+    }
+    void SetHelpPressed(bool value) {
+        isHelpPressed = value;
+        if (value) {
+            helpButton->SetTexture(PressedHelpTexture);
+        }
+        else {
+            helpButton->SetTexture(helpTexture);
+        }
+    }
 
     void Render() {
         // Render background
         SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
 
         if (startButton->IsClicked()) {
-            startButton->SetTexture(PressedStartTexture);
-          
+            SetStartPressed(true);
         }
-        else {
-            startButton->SetTexture(startTexture);
-           
-
         if (helpButton->IsClicked()) {
-            helpButton->SetTexture(PressedHelpTexture);
-           
-        }
-        else {
-            helpButton->SetTexture(helpTexture);
-           
+
+            SetHelpPressed(true);
         }
 
         startButton->Render();
         helpButton->Render();
-        }
     }
 
     bool HandleEvent(SDL_Event* event) {
@@ -78,6 +86,17 @@ public:
         }
 
         return false;  // Continue showing menu
+    }
+
+
+    bool IsStartPressed()
+    {
+        return isStartPressed;
+    }
+
+    bool IsHelpPressed()
+    {
+        return isHelpPressed;
     }
 
 private:
@@ -96,4 +115,7 @@ private:
 
     Button* startButton;
     Button* helpButton;
+
+    bool isStartPressed = false;
+    bool isHelpPressed = false;
 };
