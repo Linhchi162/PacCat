@@ -1,8 +1,8 @@
 #pragma once
 #include<SDL.h>
-#include"LText.h"
 #include"Button.h"
 #include"Settings.h"
+#include"LText.h"
 
 
 
@@ -10,16 +10,21 @@ using namespace std;
 
 class Menu {
 public:
-    Menu(SDL_Renderer* renderer, TTF_Font* font) : renderer(renderer), font(font) {
+    Menu(SDL_Renderer* renderer) : renderer(renderer) {
         // Load background texture
         backgroundTexture = LoadTexture("./assets/background.png", renderer);
 
         // Load button textures
-        startTexture = LoadText("Start", { 255, 255, 255 }, font, renderer);
-        startButtonRect = { SCREEN_WIDTH / 2 - 128, 200, 256, 64 };
+        startTexture = LoadTexture("./assets/start.png", renderer);
+        PressedStartTexture = LoadTexture("./assets/PressedStart.png", renderer);
+        startButtonRect = { SCREEN_WIDTH / 2 - 128, 200, 64, 64 };
         startButton = new Button(renderer, startTexture, startButtonRect);
-        helpTexture = LoadText("Help", { 255, 255, 255 }, font, renderer);
-        helpButtonRect = { SCREEN_WIDTH / 2 - 128, 300, 256, 64 };
+
+
+
+        helpTexture = LoadTexture("./assets/help.png", renderer);
+        PressedHelpTexture = LoadTexture("./assets/PressedHelp.png", renderer);
+        helpButtonRect = { SCREEN_WIDTH / 2 - 128, 300, 64, 64 };
         helpButton = new Button(renderer, helpTexture, helpButtonRect);
 
     }
@@ -27,7 +32,9 @@ public:
     ~Menu() {
         SDL_DestroyTexture(backgroundTexture);
         SDL_DestroyTexture(startTexture);
+        SDL_DestroyTexture(PressedStartTexture);
         SDL_DestroyTexture(helpTexture);
+        SDL_DestroyTexture(PressedHelpTexture);
         delete startButton;
         delete helpButton;
     }
@@ -36,11 +43,26 @@ public:
         // Render background
         SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
 
-        // Render buttons
-        //RenderTexture(renderer, startTexture, SCREEN_WIDTH / 2 - 100, 200, 30, 30);
-       // RenderTexture(renderer, helpTexture, SCREEN_WIDTH / 2 - 100, 300, 30, 30);
+        if (startButton->IsClicked()) {
+            startButton->SetTexture(PressedStartTexture);
+          
+        }
+        else {
+            startButton->SetTexture(startTexture);
+           
+
+        if (helpButton->IsClicked()) {
+            helpButton->SetTexture(PressedHelpTexture);
+           
+        }
+        else {
+            helpButton->SetTexture(helpTexture);
+           
+        }
+
         startButton->Render();
         helpButton->Render();
+        }
     }
 
     bool HandleEvent(SDL_Event* event) {
@@ -60,11 +82,15 @@ public:
 
 private:
     SDL_Renderer* renderer;
-    TTF_Font* font;
 
     SDL_Texture* backgroundTexture;
+
     SDL_Texture* startTexture;
+    SDL_Texture* PressedStartTexture;
+   
     SDL_Texture* helpTexture;
+    SDL_Texture* PressedHelpTexture;
+    
     SDL_Rect startButtonRect;
     SDL_Rect helpButtonRect;
 

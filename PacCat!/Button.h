@@ -8,8 +8,7 @@ public:
 
     void Render();
     bool IsClicked();
-
-    SDL_Texture* GetTexture() const;
+    void SetTexture(SDL_Texture* texture);
 
 private:
     SDL_Renderer* m_renderer;

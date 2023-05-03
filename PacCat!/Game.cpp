@@ -49,7 +49,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	boxTexture = LoadTexture("./assets/box.png", renderer);
 	goalTexture = LoadTexture("./assets/goal.png", renderer);
 
-	menu = new Menu(renderer, font);
+	menu = new Menu(renderer);
 	cat = new Cat(this, renderer);
 	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 300, 300, 50, 20 };
 	resetButton = new Button(renderer, resetTexture, resetButtonRect);

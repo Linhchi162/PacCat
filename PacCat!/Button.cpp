@@ -32,7 +32,6 @@ bool Button::IsClicked()
 
     return false;
 }
-
-SDL_Texture* Button::GetTexture() const {
-    return m_texture;
+void Button::SetTexture(SDL_Texture* texture) {
+    m_texture = texture;
 }
