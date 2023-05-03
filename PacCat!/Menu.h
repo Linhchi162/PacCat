@@ -23,7 +23,7 @@ public:
 
 
         helpTexture = LoadTexture("./assets/help.png", renderer);
-        PressedHelpTexture = LoadTexture("./assets/PressedHelp.png", renderer);
+        PressedHelpTexture = LoadTexture("./assets/PressedPlay.png", renderer);
         helpButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT / 2 + 100 , 64, 64 };
         helpButton = new Button(renderer, helpTexture, helpButtonRect);
 
@@ -36,8 +36,30 @@ public:
         SDL_DestroyTexture(helpTexture);
         SDL_DestroyTexture(PressedHelpTexture);
         SDL_DestroyTexture(Logo);
+        SDL_DestroyTexture(helpScreenTexture);
         delete startButton;
         delete helpButton;
+    }
+    void ShowHelpScreen() {
+
+        helpScreenTexture = LoadTexture("./assets/background.png", renderer);
+        SDL_Rect destRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
+        while (true) {
+            SDL_Event event;
+            if (SDL_PollEvent(&event)) {
+                if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
+                    break;
+                }
+                if (event.type == SDL_QUIT) {
+                    return;
+                }
+            }
+            SDL_RenderCopy(renderer, helpScreenTexture, NULL, &destRect);
+            SDL_RenderPresent(renderer);
+        }
+
+ 
     }
     void SetStartPressed(bool value) {
         isStartPressed = value;
@@ -63,27 +85,27 @@ public:
         SDL_RenderCopy(renderer, backgroundTexture,&rbg, NULL);
         SDL_RenderCopy(renderer, Logo, NULL, &LogoRect);
 
-        if (startButton->IsClicked()) {
-            SetStartPressed(true);
-        }
-        if (helpButton->IsClicked()) {
-
-            SetHelpPressed(true);
-        }
-
         startButton->Render();
         helpButton->Render();
+     
     }
 
     bool HandleEvent(SDL_Event* event) {
         if (event->type == SDL_MOUSEBUTTONDOWN) {
             if (startButton->IsClicked()) {
+                SetStartPressed(true);
                 return true;  // Start game
             }
 
             if (helpButton->IsClicked()) {
+                SetHelpPressed(true);
                 // Display help screen
-                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Help", "This is the help screen", nullptr);
+               
+                SDL_RenderCopy(renderer, helpButton->GetTexture(), NULL, &helpButtonRect);
+                SDL_RenderPresent(renderer);
+                SDL_Delay(500);
+                ShowHelpScreen();
+                SetHelpPressed(false);
             }
         }
 
@@ -106,6 +128,7 @@ private:
 
     SDL_Texture* backgroundTexture;
     SDL_Texture* Logo;
+    SDL_Texture* helpScreenTexture;
 
     SDL_Texture* startTexture;
     SDL_Texture* PressedStartTexture;

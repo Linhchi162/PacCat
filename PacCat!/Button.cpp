@@ -35,3 +35,7 @@ bool Button::IsClicked()
 void Button::SetTexture(SDL_Texture* texture) {
     m_texture = texture;
 }
+SDL_Texture* Button::GetTexture()
+{
+    return m_texture;
+}
