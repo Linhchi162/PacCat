@@ -12,7 +12,7 @@ public:
     Menu(SDL_Renderer* renderer) : renderer(renderer) {
         // Load background texture
         backgroundTexture = LoadTexture("./assets/background.png", renderer);
-        Logo = LoadTexture("./assets/wall.png", renderer);
+        Logo = LoadTexture("./assets/Logo.png", renderer);
 
         // Load button textures
         startTexture = LoadTexture("./assets/play.png", renderer);
@@ -60,7 +60,7 @@ public:
 
     void Render() {
         // Render background
-        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
+        SDL_RenderCopy(renderer, backgroundTexture,&rbg, NULL);
         SDL_RenderCopy(renderer, Logo, NULL, &LogoRect);
 
         if (startButton->IsClicked()) {
@@ -113,9 +113,10 @@ private:
     SDL_Texture* helpTexture;
     SDL_Texture* PressedHelpTexture;
     
-    SDL_Rect LogoRect = { 320,100,32,32 };
+    SDL_Rect LogoRect = { SCREEN_WIDTH/4 - 10,SCREEN_HEIGHT/4,370,100 };
     SDL_Rect startButtonRect;
     SDL_Rect helpButtonRect;
+    SDL_Rect rbg = { NULL,NULL,640,640 };
 
     Button* startButton;
     Button* helpButton;
