@@ -20,7 +20,7 @@ void Box::Update(int x, int y, bool complete)
 	inGoal = complete;
 }
 
-Vec2 Box::GetPos()
+Vec Box::GetPos()
 {
 	return pos;
 }

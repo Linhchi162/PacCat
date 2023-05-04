@@ -1,6 +1,5 @@
 #pragma once
 #include "Game.h"
-#include <SDL_mixer.h>
 
 
 
@@ -11,13 +10,12 @@ public:
 	void Move(int x, int y);
 	void Reset(int x, int y);
 	void Draw(SDL_Renderer* renderer);
-	void InitSound();
-	void PlaySound();
+	
 
 private:
 	void SetDirection(int x, int y);
 	int direction;
-	Vec2 pos;
+	Vec pos;
 	SDL_Texture* texture;
 	SDL_Rect posRect, spriteRect;
 	class Game* game;

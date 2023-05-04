@@ -1,7 +1,6 @@
 #pragma once
-#include "SDL.h"
-#include"Settings.h"
 
+#include"Settings.h"
 
 class Box
 {
@@ -9,12 +8,12 @@ public:
 	Box(int x, int y);
 	~Box();
 	void Update(int x, int y, bool complete);
-	Vec2 GetPos();
+	Vec GetPos();
 	SDL_Rect* GetRect();
 	bool GetInGoal();
 
 private:
-	Vec2 pos;
+	Vec pos;
 	SDL_Rect rect;
 	bool inGoal;
 };

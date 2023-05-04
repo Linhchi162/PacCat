@@ -10,10 +10,7 @@ Game::~Game()
 
 bool Game::Init()
 {
-	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_FLAC) != (MIX_INIT_MP3 | MIX_INIT_FLAC)) {
-		printf("Failed to initialize SDL_mixer: %s\n", Mix_GetError());
-		return false;
-	}
+	
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
 		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		return false;
@@ -41,63 +38,42 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	}
 	
 
-	gamelevel = new GameLevel();
-	gamelevel->LoadLevel();
-
 	
-	resetTexture = LoadTexture("./assets/play.png", renderer);
-	menuTexture = LoadTexture("./assets/help.png", renderer);
+	//--------------InitButton----------------//
+	resetButtonTexture = LoadTexture("./assets/play.png", renderer);
+	menuButtonTexture = LoadTexture("./assets/help.png", renderer);
+	resetButton = new Button(renderer, resetButtonTexture, resetButtonRect);
+	menuButton = new Button(renderer, menuButtonTexture, menuButtonRect);
 
-
+	//---------------InitScreen---------------//
 	youWin = LoadTexture("./assets/background.png", renderer);
 	levelclear = LoadTexture("./assets/levelClear.png", renderer);
+
+
+	//-----------------InitObject--------------//
 	wallTexture = LoadTexture("./assets/Artboard 1.png", renderer);
 	groundTexture = LoadTexture("./assets/ground.png", renderer);
 	boxTexture = LoadTexture("./assets/box.png", renderer);
 	goalTexture = LoadTexture("./assets/goal.png", renderer);
 
+
+	//----------------InitSound------------------//
 	nextLevelSound = Mix_LoadMUS(NEXT_LEVEL_PATH);
 	nextLevelMeowSound = Mix_LoadWAV(NEXT_LEVEL_MEOW_PATH);
-
-
 	WinSound = Mix_LoadMUS(WIN_SOUND_PATH);
 
-	menu = new Menu(renderer);
-	cat = new Cat(this, renderer);
-	SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 310, SCREEN_HEIGHT/2 - 310, 64, 64 };
-	SDL_Rect menuButtonRect = { SCREEN_WIDTH / 2 - 310, SCREEN_HEIGHT / 2 - 210, 64, 64 };
-	resetButton = new Button(renderer, resetTexture, resetButtonRect);
-	menuButton = new Button(renderer, menuTexture, menuButtonRect);
-	
 
+
+
+
+	gamelevel = new GameLevel();
+	gamelevel->LoadLevel();
+	menu = new Menu(renderer);
+    cat = new Cat(this, renderer);
+	
 	InitLevel();
 
 	return true;
-}
-
-void Game::GameLoop() {
-	while (isRunning) {
-	
-		HandleEvents();
-		if (isMenuVisible) {
-			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
-			SDL_RenderClear(renderer);
-			menu->Render();   // Vẽ màn hình menu
-			SDL_RenderPresent(renderer);
-			if (menu->IsStartPressed()) {
-			
-				SDL_Delay(500);
-				menu->SetStartPressed(false);
-				isMenuVisible = false;  // Chuyển sang màn hình chơi game
-			}
-		}
-		else {
-			Update();
-			Draw();
-			
-		}
-		
-	}
 
 }
 
@@ -110,22 +86,28 @@ void Game::HandleEvents()
 		if (event.type == SDL_QUIT) {
 			isRunning = false;
 		}
-		// Nếu đang hiển thị màn hình menu, kiểm tra sự kiện để chuyển sang màn hình chơi game
-		if (isMenuVisible ) {
+		// When menu screen is visible
+		if (isMenuVisible) {
 			if (menu->HandleEvent(&event) && !menu->IsStartPressed()) {
+
 				menu->SetStartPressed(true);
-				
+
 			}
 		}
-		else{
+	
+		else {
+		    // Reset Button
 			if (resetButton->IsClicked()) {
 				DestroyBoxes();
 				InitLevel();
 			}
+			// Return Menu Button
 			if (menuButton->IsClicked())
 			{
 				isMenuVisible = true;
 			}
+
+
 			if (event.type == SDL_KEYDOWN) {
 				switch (event.key.keysym.sym)
 				{
@@ -141,20 +123,20 @@ void Game::HandleEvents()
 				case SDLK_UP:
 					cat->Move(0, -1);
 					break;
+				/*
 				case SDLK_n:
 					GoToNextLevel();
 					break;
+					*/
 				case SDLK_p:
 					GoToPreviousLevel();
 				default:
 					break;
 				}
-				
+
 			}
 		}
 	}
-
-
 
 	const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
@@ -163,13 +145,216 @@ void Game::HandleEvents()
 	}
 }
 
+void Game::GameLoop() {
+	while (isRunning) {
+	
+		HandleEvents();
+		if (isMenuVisible) {
+			// Render the menu Screen
 
-void Game::Update()
-{
+			SDL_SetRenderDrawColor(renderer, NULL, NULL, NULL, NULL);
+			SDL_RenderClear(renderer);
+			menu->Render(); 
+			SDL_RenderPresent(renderer);
+
+			// Switch to Game Screen when Start Button is pressed
+			if (menu->IsStartPressed()) {
+				// Boucing effect for Button
+				SDL_Delay(500);
+				menu->SetStartPressed(false);
+
+
+				isMenuVisible = false; 
+			}
+
+
+		}
+		else {
+			Update();
+			Render();
+			
+		}
+		
+	}
 
 }
 
-void Game::Draw()
+
+
+bool Game::HitWall(int x, int y) {
+	return gamelevel->levelMap[x][y] == 'x';
+}
+
+
+bool Game::CanPushBox(Box* box, int x, int y) {
+
+	// Exit if trying to push into wall
+	if (HitWall(x, y)) {
+		return false;
+	}
+
+	// Exit if trying to push into another box
+	for (int i = 0; i < boxes.size(); i++) {
+		if (boxes[i] == box) {
+			continue;
+		}
+		else if (x == boxes[i]->GetPos().x && y == boxes[i]->GetPos().y) {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+bool Game::BoxUpdated(int moveX, int moveY, int pX, int pY) {
+	Box* boxToPush = nullptr;
+
+	// Find box attempting to push
+	for (int i = 0; i < boxes.size(); i++) {
+		if (pX == boxes[i]->GetPos().x && pY == boxes[i]->GetPos().y) {
+			boxToPush = boxes[i];
+		}
+	}
+
+	// Check if we can push the box, and if so, update the box
+	if (boxToPush != nullptr) {
+		int toPushX = pX + moveX;
+		int toPushY = pY + moveY;
+
+		if (CanPushBox(boxToPush, toPushX, toPushY)) {
+			bool inGoal = HitGoal(toPushX, toPushY);
+			boxToPush->Update(toPushX, toPushY, inGoal);
+			if (AllGoalsComplete()) {
+				//GoToNextLevel();
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+bool Game::HitGoal(int x, int y) {
+	return gamelevel->levelMap[x][y] == 'g';
+}
+
+bool Game::AllGoalsComplete() {
+
+	for (int i = 0; i < boxes.size(); i++) {
+		if (!boxes[i]->GetInGoal()) {
+			return false;
+		}
+	}
+	return true;
+
+}
+
+
+void Game::DestroyBoxes() {
+
+	for (int i = 0; i < boxes.size(); i++)
+	{
+		delete boxes[i];
+	}
+	boxes.erase(boxes.begin(), boxes.end());
+}
+
+void Game::InitLevel() {
+	// Reset Player and add new box
+	for (int r = 0; r < TILE_ROWS; r++) {
+		for (int c = 0; c < TILE_COLS; c++) {
+			if (gamelevel->levelMap[c][r] == 'p') {
+				cat->Reset(c, r);
+			}
+			else if (gamelevel->levelMap[c][r] == 'b') {
+				boxes.emplace_back(new Box(c, r));
+			}
+		}
+	}
+}
+
+
+void Game::GoToNextLevel() {
+	DestroyBoxes();
+
+	// Go to next level
+	gamelevel->UpdateLevel();
+	gamelevel->LoadLevel();
+
+	InitLevel();
+}
+
+
+void Game::GoToPreviousLevel()
+{
+	DestroyBoxes();
+	gamelevel->PreviousLevel();
+	gamelevel->LoadLevel();
+
+	InitLevel();
+
+
+}
+
+
+
+void Game::Update()
+{
+	if (AllGoalsComplete())
+	{
+		if (gamelevel->GetCurrentLevel() < gamelevel->GetTotalLevel())
+		{
+			// Draw the Level clear screen before updating to the next level
+			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, youWin, NULL, NULL);
+			SDL_RenderPresent(renderer);
+
+			// Sound
+			Mix_PlayChannel(-1, nextLevelMeowSound, 0);
+			Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+			Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
+			Mix_PlayMusic(nextLevelSound, 0);
+
+			// Wait for an additional 1 second before changing to the next level
+			SDL_Delay(1000);
+
+			GoToNextLevel();
+
+		}
+		else
+		{
+			// Draw the Win Screen
+			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+			SDL_RenderClear(renderer);
+			SDL_RenderCopy(renderer, levelclear, NULL, NULL);
+			SDL_RenderPresent(renderer);
+
+
+			// Sound 
+			Mix_PlayMusic(WinSound, 0);
+			Mix_PlayChannel(-1, nextLevelMeowSound, 0);
+
+			//  Wait for an additional 3 second 
+			SDL_Delay(3000);
+
+
+			// reset the game
+			DestroyBoxes();
+			gamelevel->ResetLevel();
+			InitLevel();
+			isMenuVisible = true;
+		}
+	}
+
+}
+
+void Game::Render()
 {
 	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 	SDL_RenderClear(renderer);
@@ -191,7 +376,7 @@ void Game::Draw()
 		}
 	}
 
-	// vẽ box
+	// Draw box
 	for (int i = 0; i < boxes.size(); i++) {
 		SDL_RenderCopy(renderer, boxTexture, NULL, boxes[i]->GetRect());
 	}
@@ -202,159 +387,20 @@ void Game::Draw()
 	SDL_RenderPresent(renderer);
 }
 
-bool Game::HitWall(int x, int y) {
-	return gamelevel->levelMap[x][y] == 'x';
-}
-bool Game::CanPushBox(Box* box, int x, int y) {
-
-	// Exit if trying to push into wall
-	if (HitWall(x, y)) {
-		return false;
-	}
-
-	// Exit if trying to push into another box
-	for (int i = 0; i < boxes.size(); i++) {
-		if (boxes[i] == box) {
-			continue;
-		}
-		else if (x == boxes[i]->GetPos().x && y == boxes[i]->GetPos().y) {
-			return false;
-		}
-	}
-
-	return true;
-}
-bool Game::BoxUpdated(int moveX, int moveY, int pX, int pY) {
-	Box* boxToPush = nullptr;
-
-	// Find box attempting to push
-	for (int i = 0; i < boxes.size(); i++) {
-		if (pX == boxes[i]->GetPos().x && pY == boxes[i]->GetPos().y) {
-			boxToPush = boxes[i];
-		}
-	}
-
-	// Check if we can push the box, and if so, update the box
-	if (boxToPush != nullptr) {
-		int toPushX = pX + moveX;
-		int toPushY = pY + moveY;
-
-		if (CanPushBox(boxToPush, toPushX, toPushY)) {
-			bool inGoal = HitGoal(toPushX, toPushY);
-			boxToPush->Update(toPushX, toPushY, inGoal);
-			if (AllGoalsComplete()) {
-				GoToNextLevel();
-				return false;
-			}
-		}
-		else {
-			return false;
-		}
-	}
-
-	return true;
-}
-bool Game::HitGoal(int x, int y) {
-	return gamelevel->levelMap[x][y] == 'g';
-}
-
-bool Game::AllGoalsComplete() {
-
-	for (int i = 0; i < boxes.size(); i++) {
-		if (!boxes[i]->GetInGoal()) {
-			return false;
-		}
-	}
-	if (gamelevel->GetCurrentLevel() < gamelevel->GetTotalLevel())
-	{
-		// Draw the win screen before updating to the next level
-		SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
-		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, youWin, NULL, NULL);
-		SDL_RenderPresent(renderer);
-		Mix_PlayChannel(-1, nextLevelMeowSound, 0);
-		Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-		Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
-		Mix_PlayMusic(nextLevelSound, 0);
-		
-		// Wait for an additional 1 second before changing to the next level
-		SDL_Delay(1000);
-	}
-		return true;
-
-}
-void Game::DestroyBoxes() {
-	// Clean vector
-	for (int i = 0; i < boxes.size(); i++)
-	{
-		delete boxes[i];
-	}
-	boxes.erase(boxes.begin(), boxes.end());
-}
-
-void Game::InitLevel() {
-	// Reset Player and add new boxes
-	for (int r = 0; r < TILE_ROWS; r++) {
-		for (int c = 0; c < TILE_COLS; c++) {
-			if (gamelevel->levelMap[c][r] == 'p') {
-				cat->Reset(c, r);
-			}
-			else if (gamelevel->levelMap[c][r] == 'b') {
-				boxes.emplace_back(new Box(c, r));
-			}
-		}
-	}
-	if (gamelevel->GetCurrentLevel() > gamelevel->GetTotalLevel()) {
-		// Nếu đã hoàn thành tất cả các level, bắt đầu lại từ level đầu tiên
-		SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
-		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, levelclear, NULL, NULL);
-		SDL_RenderPresent(renderer);
-
-		Mix_PlayMusic(WinSound, 0);
-		Mix_PlayChannel(-1, nextLevelMeowSound, 0);
-		SDL_Delay(3000);
-		DestroyBoxes();
-		gamelevel->ResetLevel();
-		InitLevel();
-		isMenuVisible = true;
-		
-	}
-}
-
-void Game::GoToNextLevel() {
-	DestroyBoxes();
-
-	// Go to next level
-	gamelevel->UpdateLevel();
-	gamelevel->LoadLevel();
-
-	InitLevel();
-}
-void Game::GoToPreviousLevel()
-{
-	DestroyBoxes();
-	gamelevel->PreviousLevel();
-	gamelevel->LoadLevel();
-
-	InitLevel();
-
-
-}
 
 void Game::Shutdown() {
+
+
 	SDL_DestroyTexture(wallTexture);
 	SDL_DestroyTexture(groundTexture);
 	SDL_DestroyTexture(boxTexture);
 	SDL_DestroyTexture(goalTexture);
-	SDL_DestroyTexture(resetTexture);
+	SDL_DestroyTexture(resetButtonTexture);
 	SDL_DestroyTexture(youWin);
 	SDL_DestroyTexture(levelclear);
 
 	Mix_FreeChunk(nextLevelMeowSound);
 	Mix_FreeMusic(nextLevelSound);
-
-	delete resetButton;
 
 
 	SDL_DestroyRenderer(renderer);

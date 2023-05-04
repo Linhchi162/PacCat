@@ -18,13 +18,3 @@ inline SDL_Texture* LoadTexture(std::string path, SDL_Renderer* renderer) {
 
 	return newTexture;
 }
-inline void RenderTexture(SDL_Renderer* renderer, SDL_Texture* texture, int x, int y, int w, int h)
-{
-	SDL_Rect dst;
-	dst.x = x;
-	dst.y = y;
-	dst.h = h;
-	dst.w = w;
-	SDL_QueryTexture(texture, NULL, NULL, &dst.w, &dst.h);
-	SDL_RenderCopy(renderer, texture, NULL, &dst);
-}

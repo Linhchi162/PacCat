@@ -1,10 +1,12 @@
 ﻿#include"Button.h"
 
 Button::Button(SDL_Renderer* renderer, SDL_Texture* texture, SDL_Rect rect)
-    : m_renderer(renderer)
-    , m_texture(texture)
-    , m_rect(rect)
+    
 {
+
+    m_renderer = renderer;
+    m_texture = texture;
+    m_rect = rect;
 }
 
 Button::~Button()
@@ -35,6 +37,7 @@ bool Button::IsClicked()
 void Button::SetTexture(SDL_Texture* texture) {
     m_texture = texture;
 }
+
 SDL_Texture* Button::GetTexture()
 {
     return m_texture;
