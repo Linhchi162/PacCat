@@ -8,6 +8,8 @@ Cat::Cat(Game* g,SDL_Renderer* renderer) {
 	pos.y = 0;
 	posRect = { pos.x, pos.y, TILE_SIZE, TILE_SIZE };
 	spriteRect = { 0, 0, TILE_SIZE, TILE_SIZE };
+
+	InitSound();
 }
 
 void Cat::Move(int x, int y)
@@ -29,6 +31,8 @@ void Cat::Move(int x, int y)
 
 	posRect.x = pos.x * TILE_SIZE;
 	posRect.y = pos.y * TILE_SIZE;
+
+	PlaySound();
 }
 
 void Cat::Draw(SDL_Renderer* renderer) {
@@ -58,4 +62,18 @@ void Cat::Reset(int x, int y) {
 	pos.y = y;
 	posRect = { pos.x * TILE_SIZE, pos.y * TILE_SIZE, TILE_SIZE, TILE_SIZE };
 	spriteRect = { 0, 0, TILE_SIZE, TILE_SIZE };
+}
+
+void Cat::InitSound()
+{
+	catSound = Mix_LoadWAV(CAT_SOUND_PATH);
+	if (catSound == NULL) {
+		printf("Unable to load sound effect! SDL_mixer Error: %s\n", Mix_GetError());
+		return;
+	}
+}
+void Cat::PlaySound() {
+	if (catSound != NULL) {
+		Mix_PlayChannel(-1, catSound, 0);
+	}
 }

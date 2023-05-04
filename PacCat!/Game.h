@@ -5,6 +5,7 @@
 #include"GameLevel.h"
 #include"Cat.h"
 #include"Menu.h"
+#include <SDL_mixer.h>
 
 class Game
 {
@@ -50,6 +51,16 @@ private:
 	SDL_Texture* goalTexture = nullptr;
 	SDL_Texture* youWin = nullptr;
 	SDL_Texture* levelclear = nullptr;
+
+	const char* NEXT_LEVEL_MEOW_PATH = "./assets/nextLevelmeow.wav";
+    Mix_Chunk* nextLevelMeowSound = nullptr;
+
+	const char* NEXT_LEVEL_PATH = "./assets/nextLevel.wav";
+    Mix_Music* nextLevelSound = nullptr;
+
+	const char* WIN_SOUND_PATH = "./assets/Win.wav";
+	Mix_Music* WinSound = nullptr;
+
 	class GameLevel* gamelevel;
 	class Cat* cat;
 	class Menu* menu;

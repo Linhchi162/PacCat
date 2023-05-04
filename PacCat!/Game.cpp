@@ -10,7 +10,14 @@ Game::~Game()
 
 bool Game::Init()
 {
-
+	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_FLAC) != (MIX_INIT_MP3 | MIX_INIT_FLAC)) {
+		printf("Failed to initialize SDL_mixer: %s\n", Mix_GetError());
+		return false;
+	}
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+		return false;
+	}
 if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		cout << "SDL failed to initialize: " << SDL_GetError() << endl;
 		return false;
@@ -32,6 +39,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		cout << "Renderer failed to initialize: " << SDL_GetError() << endl;
 		return false;
 	}
+	
 
 	gamelevel = new GameLevel();
 	gamelevel->LoadLevel();
@@ -47,6 +55,12 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	groundTexture = LoadTexture("./assets/ground.png", renderer);
 	boxTexture = LoadTexture("./assets/box.png", renderer);
 	goalTexture = LoadTexture("./assets/goal.png", renderer);
+
+	nextLevelSound = Mix_LoadMUS(NEXT_LEVEL_PATH);
+	nextLevelMeowSound = Mix_LoadWAV(NEXT_LEVEL_MEOW_PATH);
+
+
+	WinSound = Mix_LoadMUS(WIN_SOUND_PATH);
 
 	menu = new Menu(renderer);
 	cat = new Cat(this, renderer);
@@ -258,7 +272,11 @@ bool Game::AllGoalsComplete() {
 		SDL_RenderClear(renderer);
 		SDL_RenderCopy(renderer, youWin, NULL, NULL);
 		SDL_RenderPresent(renderer);
-
+		Mix_PlayChannel(-1, nextLevelMeowSound, 0);
+		Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+		Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
+		Mix_PlayMusic(nextLevelSound, 0);
+		
 		// Wait for an additional 1 second before changing to the next level
 		SDL_Delay(1000);
 	}
@@ -293,7 +311,8 @@ void Game::InitLevel() {
 		SDL_RenderCopy(renderer, levelclear, NULL, NULL);
 		SDL_RenderPresent(renderer);
 
-
+		Mix_PlayMusic(WinSound, 0);
+		Mix_PlayChannel(-1, nextLevelMeowSound, 0);
 		SDL_Delay(3000);
 		DestroyBoxes();
 		gamelevel->ResetLevel();
@@ -332,11 +351,16 @@ void Game::Shutdown() {
 	SDL_DestroyTexture(youWin);
 	SDL_DestroyTexture(levelclear);
 
+	Mix_FreeChunk(nextLevelMeowSound);
+	Mix_FreeMusic(nextLevelSound);
+
 	delete resetButton;
+
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 
+	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
