@@ -7,39 +7,45 @@ Menu::Menu(SDL_Renderer* renderer) {
 
 
         // Load Menu Screen texture
-        backgroundTexture = LoadTexture("./assets/background.png", renderer);
-        Logo = LoadTexture("./assets/Logo.png", renderer);
-        helpScreenTexture = LoadTexture("./assets/background.png", renderer);
+        backgroundTexture = LoadTexture("./assets/Background.png", renderer);
+        helpScreenTexture = LoadTexture("./assets/helpScreen.png", renderer);
 
 
         // Load button textures
           // Start Button:
-        startTexture = LoadTexture("./assets/play.png", renderer);
-        PressedStartTexture = LoadTexture("./assets/PressedPlay.png", renderer);
+        startButtonTexture = LoadTexture("./assets/play.png", renderer);
+        PressedstartButtonTexture = LoadTexture("./assets/PressedPlay.png", renderer);
         startButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT / 2, 64, 64 };
-        startButton = new Button(renderer, startTexture, startButtonRect);
+        startButton = new Button(renderer, startButtonTexture, startButtonRect);
           // Help Button:
-        helpTexture = LoadTexture("./assets/help.png", renderer);
-        PressedHelpTexture = LoadTexture("./assets/PressedHelp.png", renderer);
+       HelpButtonTexture = LoadTexture("./assets/help.png", renderer);
+        PressedHelpButtonTexture = LoadTexture("./assets/PressedHelp.png", renderer);
         helpButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT / 2 + 100 , 64, 64 };
-        helpButton = new Button(renderer, helpTexture, helpButtonRect);
-
+        helpButton = new Button(renderer,HelpButtonTexture, helpButtonRect);
+        // Sound Button:
+        SoundButtonTexture = LoadTexture("./assets/Sound.png", renderer);
+        PressedSoundButtonTexture = LoadTexture("./assets/PressedSound.png", renderer);
+        SoundButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT / 2 + 200 , 64, 64 };
+        soundButton = new Button(renderer, SoundButtonTexture, SoundButtonRect);
 
         //Sound
         ClickSound = Mix_LoadWAV(CLICK_SOUND_PATH);
-
+       
     }
 Menu::~Menu()
 {
     SDL_DestroyTexture(backgroundTexture);
-    SDL_DestroyTexture(Logo);
 
-    SDL_DestroyTexture(startTexture);
-    SDL_DestroyTexture(PressedStartTexture);
+    SDL_DestroyTexture(startButtonTexture);
+    SDL_DestroyTexture(PressedstartButtonTexture);
 
-    SDL_DestroyTexture(helpTexture);
-    SDL_DestroyTexture(PressedHelpTexture);
+    SDL_DestroyTexture(HelpButtonTexture);
+    SDL_DestroyTexture(PressedHelpButtonTexture);
  
+    SDL_DestroyTexture(SoundButtonTexture);
+    SDL_DestroyTexture(PressedSoundButtonTexture);
+
+
     SDL_DestroyTexture(helpScreenTexture);
 
     delete startButton;
@@ -60,7 +66,7 @@ void Menu::ShowHelpScreen()
                 return;
             }
         }
-        SDL_RenderCopy(mrenderer, helpScreenTexture, NULL, &HelpScreenDst);
+        SDL_RenderCopy(mrenderer, helpScreenTexture, NULL, &ScreenDst);
         SDL_RenderPresent(mrenderer);
     }
 
@@ -69,30 +75,44 @@ void Menu::SetStartPressed(bool value)
 {
     isStartPressed = value;
     if (value) {
-        startButton->SetTexture(PressedStartTexture);
+        startButton->SetTexture(PressedstartButtonTexture);
     }
     else {
-        startButton->SetTexture(startTexture);
+        startButton->SetTexture(startButtonTexture);
     }
 }
 
 void Menu::SetHelpPressed(bool value) {
     isHelpPressed = value;
     if (value) {
-        helpButton->SetTexture(PressedHelpTexture);
+        helpButton->SetTexture(PressedHelpButtonTexture);
     }
     else {
-        helpButton->SetTexture(helpTexture);
+        helpButton->SetTexture(HelpButtonTexture);
     }
+}
+
+void Menu::SetSoundPressed(bool value) {
+    isSoundPressed = value;
+    if (value) {
+        soundButton->SetTexture(PressedSoundButtonTexture);
+    }
+    else {
+        soundButton->SetTexture(SoundButtonTexture);
+    }
+
+
 }
 
 void Menu::Render() {
     // Render background and logo
-    SDL_RenderCopy(mrenderer, backgroundTexture, NULL, NULL);
-    SDL_RenderCopy(mrenderer, Logo, NULL, &LogoDst);
+ 
+    SDL_RenderCopy(mrenderer, backgroundTexture, NULL, &ScreenDst);
 
     startButton->Render();
     helpButton->Render();
+    soundButton->Render();
+
 
 }
 bool Menu::HandleEvent(SDL_Event* event) {
@@ -101,6 +121,7 @@ bool Menu::HandleEvent(SDL_Event* event) {
             Mix_PlayChannel(-1, ClickSound, 0);
             SetStartPressed(true);
             return true;  // Start game
+
         }
 
         if (helpButton->IsClicked()) {
@@ -114,8 +135,21 @@ bool Menu::HandleEvent(SDL_Event* event) {
             ShowHelpScreen();
             SetHelpPressed(false);
         }
-    }
+        if (soundButton->IsClicked()) {
+            Mix_PlayChannel(-1, ClickSound, 0);
+            SetSoundPressed(true);
 
+            // Bouncing 
+            SDL_RenderCopy(mrenderer, soundButton->GetTexture(), NULL, &SoundButtonRect);
+            SDL_RenderPresent(mrenderer);
+            SDL_Delay(200);
+
+
+            SetSoundPressed(false);
+            isMuted = !isMuted;
+           
+        }
+    }
     return false;  // Continue showing menu
 }
 

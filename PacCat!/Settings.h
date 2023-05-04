@@ -15,8 +15,7 @@ const int SCREEN_HEIGHT = TILE_SIZE * TILE_ROWS;
 
 const SDL_Rect resetButtonRect = { SCREEN_WIDTH / 2 - 310, SCREEN_HEIGHT / 2 - 310, 64, 64 };
 const SDL_Rect menuButtonRect = { SCREEN_WIDTH / 2 - 310, SCREEN_HEIGHT / 2 - 210, 64, 64 };
-const SDL_Rect HelpScreenDst = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-const SDL_Rect LogoDst = { SCREEN_WIDTH / 4 - 10,SCREEN_HEIGHT / 4,370,100 };
+const SDL_Rect ScreenDst = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
 
 

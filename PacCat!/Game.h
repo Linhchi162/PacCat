@@ -22,11 +22,16 @@ public:
 	bool BoxUpdated(int moveX, int moveY, int pX, int pY);
 	bool HitWall(int x, int y);
 	
+	
 
 
 private:
 
+	void HandleSound();
 	
+	
+	void TurnOffMusic();
+	void TurnOnMusic();
 	void HandleEvents();
 	void Update();
 	void Render();
@@ -73,16 +78,19 @@ private:
 	
 
 	//------------------SoundPath----------------------//
-	const char* NEXT_LEVEL_MEOW_PATH = "./assets/nextLevelmeow.wav";
-	const char* NEXT_LEVEL_PATH = "./assets/nextLevel.wav";
-	const char* WIN_SOUND_PATH = "./assets/Win.wav";
+	const char* NEXT_LEVEL_MEOW_PATH = "./Sound/nextLevelmeow.wav";
+	const char* NEXT_LEVEL_PATH = "./Sound/nextLevel.wav";
+	const char* WIN_SOUND_PATH = "./Sound/Win.wav";
+
+
 
 
 	//--------------------Chunk,Music------------------//
     Mix_Chunk* nextLevelMeowSound = nullptr;
     Mix_Music* nextLevelSound = nullptr;
 	Mix_Music* WinSound = nullptr;
-
+	;
+	
 
 };
 

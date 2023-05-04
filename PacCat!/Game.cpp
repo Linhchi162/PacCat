@@ -15,7 +15,7 @@ bool Game::Init()
 		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		return false;
 	}
-if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		cout << "SDL failed to initialize: " << SDL_GetError() << endl;
 		return false;
 	}
@@ -40,18 +40,18 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 
 	
 	//--------------InitButton----------------//
-	resetButtonTexture = LoadTexture("./assets/play.png", renderer);
-	menuButtonTexture = LoadTexture("./assets/help.png", renderer);
+	resetButtonTexture = LoadTexture("./assets/Replay.png", renderer);
+	menuButtonTexture = LoadTexture("./assets/Home.png", renderer);
 	resetButton = new Button(renderer, resetButtonTexture, resetButtonRect);
 	menuButton = new Button(renderer, menuButtonTexture, menuButtonRect);
 
 	//---------------InitScreen---------------//
-	youWin = LoadTexture("./assets/background.png", renderer);
+	youWin = LoadTexture("./assets/Win.png", renderer);
 	levelclear = LoadTexture("./assets/levelClear.png", renderer);
 
 
 	//-----------------InitObject--------------//
-	wallTexture = LoadTexture("./assets/Artboard 1.png", renderer);
+	wallTexture = LoadTexture("./assets/Wall.png", renderer);
 	groundTexture = LoadTexture("./assets/ground.png", renderer);
 	boxTexture = LoadTexture("./assets/box.png", renderer);
 	goalTexture = LoadTexture("./assets/goal.png", renderer);
@@ -61,7 +61,7 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	nextLevelSound = Mix_LoadMUS(NEXT_LEVEL_PATH);
 	nextLevelMeowSound = Mix_LoadWAV(NEXT_LEVEL_MEOW_PATH);
 	WinSound = Mix_LoadMUS(WIN_SOUND_PATH);
-
+	
 
 
 
@@ -70,7 +70,8 @@ if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 	gamelevel->LoadLevel();
 	menu = new Menu(renderer);
     cat = new Cat(this, renderer);
-	
+
+
 	InitLevel();
 
 	return true;
@@ -93,9 +94,11 @@ void Game::HandleEvents()
 				menu->SetStartPressed(true);
 
 			}
+			
 		}
 	
 		else {
+			
 		    // Reset Button
 			if (resetButton->IsClicked()) {
 				DestroyBoxes();
@@ -123,11 +126,10 @@ void Game::HandleEvents()
 				case SDLK_UP:
 					cat->Move(0, -1);
 					break;
-				/*
 				case SDLK_n:
 					GoToNextLevel();
 					break;
-					*/
+				
 				case SDLK_p:
 					GoToPreviousLevel();
 				default:
@@ -148,10 +150,11 @@ void Game::HandleEvents()
 void Game::GameLoop() {
 	while (isRunning) {
 	
+		HandleSound();
 		HandleEvents();
 		if (isMenuVisible) {
 			// Render the menu Screen
-
+		
 			SDL_SetRenderDrawColor(renderer, NULL, NULL, NULL, NULL);
 			SDL_RenderClear(renderer);
 			menu->Render(); 
@@ -171,6 +174,7 @@ void Game::GameLoop() {
 		}
 		else {
 			Update();
+			
 			Render();
 			
 		}
@@ -254,7 +258,29 @@ bool Game::AllGoalsComplete() {
 
 }
 
+void Game::HandleSound()
+{
+	
+	if (menu->isMuted)
+	{
+		TurnOffMusic();
+	}
+	else
+	{
+		TurnOnMusic();
+	}
+}
+void Game::TurnOnMusic()
+{
+	Mix_Volume(-1, MIX_MAX_VOLUME);
+		
+}
+void Game::TurnOffMusic()
+{
+	Mix_Volume(-1, 0);
+	Mix_HaltMusic();
 
+}
 void Game::DestroyBoxes() {
 
 	for (int i = 0; i < boxes.size(); i++)
@@ -303,8 +329,10 @@ void Game::GoToPreviousLevel()
 
 
 
+
 void Game::Update()
 {
+	
 	if (AllGoalsComplete())
 	{
 		if (gamelevel->GetCurrentLevel() < gamelevel->GetTotalLevel())
@@ -312,14 +340,16 @@ void Game::Update()
 			// Draw the Level clear screen before updating to the next level
 			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, youWin, NULL, NULL);
+			SDL_RenderCopy(renderer, levelclear, NULL, &ScreenDst);
 			SDL_RenderPresent(renderer);
 
 			// Sound
-			Mix_PlayChannel(-1, nextLevelMeowSound, 0);
-			Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-			Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
-			Mix_PlayMusic(nextLevelSound, 0);
+			if (!menu->isMuted) {
+				Mix_PlayChannel(-1, nextLevelMeowSound, 0);
+				Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+				Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
+				Mix_PlayMusic(nextLevelSound, 0);
+			}
 
 			// Wait for an additional 1 second before changing to the next level
 			SDL_Delay(1000);
@@ -332,13 +362,15 @@ void Game::Update()
 			// Draw the Win Screen
 			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, levelclear, NULL, NULL);
+			SDL_RenderCopy(renderer, youWin, NULL, &ScreenDst);
 			SDL_RenderPresent(renderer);
 
 
 			// Sound 
-			Mix_PlayMusic(WinSound, 0);
-			Mix_PlayChannel(-1, nextLevelMeowSound, 0);
+			if (!menu->isMuted) {
+				Mix_PlayMusic(WinSound, 0);
+				Mix_PlayChannel(-1, nextLevelMeowSound, 0);
+			}
 
 			//  Wait for an additional 3 second 
 			SDL_Delay(3000);
@@ -401,7 +433,7 @@ void Game::Shutdown() {
 
 	Mix_FreeChunk(nextLevelMeowSound);
 	Mix_FreeMusic(nextLevelSound);
-
+	Mix_FreeMusic(WinSound);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);

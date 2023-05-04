@@ -1,10 +1,12 @@
 #include "GameLevel.h"
 
 void GameLevel::LoadLevel() {
+	
+	string path = "Levels/level" + to_string(currentLevel) + ".txt";
+
 	int rowCount = 0;
 	int colCount = 0;
 
-	string path = "Levels/level" + to_string(currentLevel) + ".txt";
 
 	levelFile.open(path);
 	if (levelFile.is_open()) {

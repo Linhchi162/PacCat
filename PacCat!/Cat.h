@@ -19,6 +19,6 @@ private:
 	SDL_Texture* texture;
 	SDL_Rect posRect, spriteRect;
 	class Game* game;
-	const char* CAT_SOUND_PATH = "./assets/catStep.wav";
+	const char* CAT_SOUND_PATH = "./Sound/catStep.wav";
 	Mix_Chunk* catSound;
 };

@@ -2,6 +2,7 @@
 
 #include"Button.h"
 #include"Settings.h"
+#include"Game.h"
 
 using namespace std;
 
@@ -18,7 +19,10 @@ public:
       
     void SetHelpPressed(bool value);
 
+    void SetSoundPressed(bool value);
+
     void Render();
+
 
     bool HandleEvent(SDL_Event* event);
 
@@ -32,31 +36,43 @@ public:
         return isHelpPressed;
     }
 
+
+    bool IsSoundPressed()
+    {
+        return isSoundPressed;
+    }
+    bool isMuted = false;
 private:
     SDL_Renderer* mrenderer;
 
     SDL_Texture* backgroundTexture;
-    SDL_Texture* Logo;
     SDL_Texture* helpScreenTexture;
 
-    SDL_Texture* startTexture;
-    SDL_Texture* PressedStartTexture;
+    SDL_Texture* startButtonTexture;
+    SDL_Texture* PressedstartButtonTexture;
    
-    SDL_Texture* helpTexture;
-    SDL_Texture* PressedHelpTexture;
+    SDL_Texture*HelpButtonTexture;
+    SDL_Texture* PressedHelpButtonTexture;
+
+    SDL_Texture* SoundButtonTexture;
+    SDL_Texture* PressedSoundButtonTexture;
     
    
     SDL_Rect startButtonRect;
     SDL_Rect helpButtonRect;
+    SDL_Rect SoundButtonRect;
    
 
     Button* startButton;
     Button* helpButton;
+    Button* soundButton;
 
 
-    const char* CLICK_SOUND_PATH = "./assets/Click.wav";
+   
+
+    const char* CLICK_SOUND_PATH = "./Sound/Click.wav";
     Mix_Chunk* ClickSound;
-
     bool isStartPressed = false;
     bool isHelpPressed = false;
+    bool isSoundPressed = false;
 };
