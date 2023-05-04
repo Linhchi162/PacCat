@@ -61,6 +61,8 @@ private:
 	const char* WIN_SOUND_PATH = "./assets/Win.wav";
 	Mix_Music* WinSound = nullptr;
 
+
+
 	class GameLevel* gamelevel;
 	class Cat* cat;
 	class Menu* menu;

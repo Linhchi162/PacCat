@@ -2,6 +2,7 @@
 #include<SDL.h>
 #include"Button.h"
 #include"Settings.h"
+#include<SDL_mixer.h>
 
 
 
@@ -26,6 +27,8 @@ public:
         PressedHelpTexture = LoadTexture("./assets/PressedHelp.png", renderer);
         helpButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT / 2 + 100 , 64, 64 };
         helpButton = new Button(renderer, helpTexture, helpButtonRect);
+
+        ClickSound = Mix_LoadWAV(CLICK_SOUND_PATH);
 
     }
 
@@ -93,11 +96,13 @@ public:
     bool HandleEvent(SDL_Event* event) {
         if (event->type == SDL_MOUSEBUTTONDOWN) {
             if (startButton->IsClicked()) {
+                Mix_PlayChannel(-1, ClickSound, 0);
                 SetStartPressed(true);
                 return true;  // Start game
             }
 
             if (helpButton->IsClicked()) {
+                Mix_PlayChannel(-1, ClickSound, 0);
                 SetHelpPressed(true);
                 // Display help screen
                
@@ -143,6 +148,10 @@ private:
 
     Button* startButton;
     Button* helpButton;
+
+
+    const char* CLICK_SOUND_PATH = "./assets/Click.wav";
+    Mix_Chunk* ClickSound;
 
     bool isStartPressed = false;
     bool isHelpPressed = false;
