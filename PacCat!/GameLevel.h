@@ -21,5 +21,5 @@ public:
 private:
 	ifstream levelFile;
 	int currentLevel = 1;
-	int totalLevels = 5;
+	int totalLevels = 10;
 };

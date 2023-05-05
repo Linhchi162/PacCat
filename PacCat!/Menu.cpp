@@ -28,8 +28,7 @@ Menu::Menu(SDL_Renderer* renderer) {
         SoundButtonRect = { SCREEN_WIDTH / 2 - 27, SCREEN_HEIGHT / 2 + 200 , 64, 64 };
         soundButton = new Button(renderer, SoundButtonTexture, SoundButtonRect);
 
-        //Sound
-        ClickSound = Mix_LoadWAV(CLICK_SOUND_PATH);
+      
        
     }
 Menu::~Menu()
@@ -118,25 +117,33 @@ void Menu::Render() {
 bool Menu::HandleEvent(SDL_Event* event) {
     if (event->type == SDL_MOUSEBUTTONDOWN) {
         if (startButton->IsClicked()) {
-            Mix_PlayChannel(-1, ClickSound, 0);
+          
             SetStartPressed(true);
+
             return true;  // Start game
 
         }
 
         if (helpButton->IsClicked()) {
-            Mix_PlayChannel(-1, ClickSound, 0);
+          
             SetHelpPressed(true);
             // Display help screen
 
             SDL_RenderCopy(mrenderer, helpButton->GetTexture(), NULL, &helpButtonRect);
             SDL_RenderPresent(mrenderer);
-            SDL_Delay(500);
-            ShowHelpScreen();
             SetHelpPressed(false);
+
+            SDL_RenderCopy(mrenderer, helpButton->GetTexture(), NULL, &helpButtonRect);
+            SDL_Delay(200);
+            SDL_RenderPresent(mrenderer);
+
+            SDL_Delay(500);
+
+            ShowHelpScreen();
+           
         }
         if (soundButton->IsClicked()) {
-            Mix_PlayChannel(-1, ClickSound, 0);
+           
             SetSoundPressed(true);
 
             // Bouncing 

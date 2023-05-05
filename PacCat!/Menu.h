@@ -70,8 +70,6 @@ private:
 
    
 
-    const char* CLICK_SOUND_PATH = "./Sound/Click.wav";
-    Mix_Chunk* ClickSound;
     bool isStartPressed = false;
     bool isHelpPressed = false;
     bool isSoundPressed = false;

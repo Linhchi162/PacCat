@@ -1,9 +1,2 @@
-﻿  Box.cpp
-  Button.cpp
-  Game.cpp
-  GameLevel.cpp
-  Main.cpp
-  Cat.cpp
-  Menu.cpp
-  Generating Code...
+﻿  Game.cpp
   PacCat!.vcxproj -> C:\PacCat-\PacCat\PacCat!\x64\Debug\PacCat!.exe

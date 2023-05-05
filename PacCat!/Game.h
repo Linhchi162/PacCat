@@ -43,8 +43,7 @@ private:
 	void GoToNextLevel();
 	void GoToPreviousLevel();
 	bool CanPushBox(Box* box, int x, int y);
-
-
+	
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 
@@ -55,8 +54,10 @@ private:
 	//-----------------Button--------------------//
 	SDL_Texture* resetButtonTexture = nullptr;
 	SDL_Texture* menuButtonTexture = nullptr;
+	SDL_Texture* DisappearButtonTexture = nullptr;
 	class Button* resetButton;
 	class Button* menuButton;
+	class Button* DisapearButton;
 
 
 

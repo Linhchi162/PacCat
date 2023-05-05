@@ -1,10 +1,11 @@
 xxxxxxxxxx
 xxxxxxxxxx
-xxxxxxoxxx
-xpoxxgboxx
-xooxxxooox
-xoboooboox
-xxgxxxgxxx
+xxoooooxxx
+xxogbgoxxx
+xxobgboxxx
+xxogbgoxxx
+xxobgboxxx
+xxoopooxxx
 xxxxxxxxxx
 xxxxxxxxxx
-xxxxxxxxxx
+

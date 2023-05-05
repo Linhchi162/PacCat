@@ -42,8 +42,11 @@ bool Game::Init()
 	//--------------InitButton----------------//
 	resetButtonTexture = LoadTexture("./assets/Replay.png", renderer);
 	menuButtonTexture = LoadTexture("./assets/Home.png", renderer);
+	DisappearButtonTexture = LoadTexture("./assets/Home.png", renderer);
 	resetButton = new Button(renderer, resetButtonTexture, resetButtonRect);
 	menuButton = new Button(renderer, menuButtonTexture, menuButtonRect);
+	DisapearButton = new Button(renderer, DisappearButtonTexture, DisappearButtonRect);
+
 
 	//---------------InitScreen---------------//
 	youWin = LoadTexture("./assets/Win.png", renderer);
@@ -162,7 +165,7 @@ void Game::GameLoop() {
 
 			// Switch to Game Screen when Start Button is pressed
 			if (menu->IsStartPressed()) {
-				// Boucing effect for Button
+				
 				SDL_Delay(500);
 				menu->SetStartPressed(false);
 
@@ -174,7 +177,6 @@ void Game::GameLoop() {
 		}
 		else {
 			Update();
-			
 			Render();
 			
 		}
@@ -292,6 +294,7 @@ void Game::DestroyBoxes() {
 
 void Game::InitLevel() {
 	// Reset Player and add new box
+
 	for (int r = 0; r < TILE_ROWS; r++) {
 		for (int c = 0; c < TILE_COLS; c++) {
 			if (gamelevel->levelMap[c][r] == 'p') {
@@ -405,17 +408,33 @@ void Game::Render()
 			else {
 				SDL_RenderCopy(renderer, groundTexture, NULL, &rect);
 			}
+
+		    // make box disappear
+			if (DisapearButton->m_isPressed )
+			{
+				for (int i = 0; i < boxes.size(); i++) {
+					if (gamelevel->levelMap[c][r] == 'g') {
+						SDL_RenderCopy(renderer, goalTexture, NULL,&rect);
+					}
+					if (gamelevel->levelMap[c][r] == 'b')
+					SDL_RenderCopy(renderer, groundTexture, NULL,&rect);
+				}
+				
+			}
+			else {
+				// Draw box
+				for (int i = 0; i < boxes.size(); i++) {
+					SDL_RenderCopy(renderer, boxTexture, NULL, boxes[i]->GetRect());
+				}
+			}
 		}
 	}
 
-	// Draw box
-	for (int i = 0; i < boxes.size(); i++) {
-		SDL_RenderCopy(renderer, boxTexture, NULL, boxes[i]->GetRect());
-	}
-
 	cat->Draw(renderer);
+		
 	menuButton->Render();
 	resetButton->Render();
+	DisapearButton->Render();
 	SDL_RenderPresent(renderer);
 }
 
