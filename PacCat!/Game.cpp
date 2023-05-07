@@ -10,12 +10,13 @@ Game::~Game()
 
 bool Game::Init()
 {
-	
+	TTF_Init();
+
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
 		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 		return false;
 	}
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
 		cout << "SDL failed to initialize: " << SDL_GetError() << endl;
 		return false;
 	}
@@ -36,43 +37,26 @@ bool Game::Init()
 		cout << "Renderer failed to initialize: " << SDL_GetError() << endl;
 		return false;
 	}
-	
 
-	
-	//--------------InitButton----------------//
-	resetButtonTexture = LoadTexture("./assets/Replay.png", renderer);
-	menuButtonTexture = LoadTexture("./assets/Home.png", renderer);
-	DisappearButtonTexture = LoadTexture("./assets/Home.png", renderer);
+
+	LoadResources();
+
 	resetButton = new Button(renderer, resetButtonTexture, resetButtonRect);
 	menuButton = new Button(renderer, menuButtonTexture, menuButtonRect);
 	DisapearButton = new Button(renderer, DisappearButtonTexture, DisappearButtonRect);
-
-
-	//---------------InitScreen---------------//
-	youWin = LoadTexture("./assets/Win.png", renderer);
-	levelclear = LoadTexture("./assets/levelClear.png", renderer);
-
-
-	//-----------------InitObject--------------//
-	wallTexture = LoadTexture("./assets/Wall.png", renderer);
-	groundTexture = LoadTexture("./assets/ground.png", renderer);
-	boxTexture = LoadTexture("./assets/box.png", renderer);
-	goalTexture = LoadTexture("./assets/goal.png", renderer);
-
-
-	//----------------InitSound------------------//
-	nextLevelSound = Mix_LoadMUS(NEXT_LEVEL_PATH);
-	nextLevelMeowSound = Mix_LoadWAV(NEXT_LEVEL_MEOW_PATH);
-	WinSound = Mix_LoadMUS(WIN_SOUND_PATH);
-	
-
+	//resumeButton = new Button(renderer, ResumeButtonTexture, DisappearButtonRect);
 
 
 
 	gamelevel = new GameLevel();
 	gamelevel->LoadLevel();
 	menu = new Menu(renderer);
-    cat = new Cat(this, renderer);
+	cat = new Cat(this, renderer);
+	timer = new Timer();
+	//lvs = new LevelSelection(renderer);
+
+	timer->start();
+	timeLimit = 300000;
 
 
 	InitLevel();
@@ -82,6 +66,33 @@ bool Game::Init()
 }
 
 
+void Game::LoadResources() {
+	// Load textures
+	wallTexture = LoadTexture("./assets/Wall.png", renderer);
+	groundTexture = LoadTexture("./assets/ground.png", renderer);
+	boxTexture = LoadTexture("./assets/box.png", renderer);
+	goalTexture = LoadTexture("./assets/goal.png", renderer);
+
+	// Load Button
+	resetButtonTexture = LoadTexture("./assets/Replay.png", renderer);
+	menuButtonTexture = LoadTexture("./assets/Home.png", renderer);
+	DisappearButtonTexture = LoadTexture("./assets/Home.png", renderer);
+
+	//Load font
+	font = TTF_OpenFont("./assets/Daydream.ttf", 40);
+
+
+	//LoadScreen
+	youWin = LoadTexture("./assets/Win.png", renderer);
+	levelclear = LoadTexture("./assets/levelClear.png", renderer);
+
+	// Load sounds
+	nextLevelSound = Mix_LoadMUS(NEXT_LEVEL_PATH);
+	nextLevelMeowSound = Mix_LoadWAV(NEXT_LEVEL_MEOW_PATH);
+	WinSound = Mix_LoadMUS(WIN_SOUND_PATH);
+	
+}
+
 void Game::HandleEvents()
 {
 	SDL_Event event;
@@ -90,19 +101,32 @@ void Game::HandleEvents()
 		if (event.type == SDL_QUIT) {
 			isRunning = false;
 		}
+
 		// When menu screen is visible
 		if (isMenuVisible) {
-			if (menu->HandleEvent(&event) && !menu->IsStartPressed()) {
-
-				menu->SetStartPressed(true);
-
+			menu->HandleEvent(&event);
+			if (menu->IsLevelScreenVisible())
+			{
+				
+				isMenuVisible = true;
+				if (menu->IsLevelChoosed()) {
+					GoToLevel();
+					menu->SetLevelScreen(false);
+					isMenuVisible = false;	
+				}
+				
+				
 			}
-			
-		}
 	
+			if (menu->IsResumeClicked())
+			{
+				menu->SetResumeClicked(false);
+				SDL_Delay(200);
+				isMenuVisible = false;
+			}
+		}
 		else {
-			
-		    // Reset Button
+			// Reset Button
 			if (resetButton->IsClicked()) {
 				DestroyBoxes();
 				InitLevel();
@@ -110,9 +134,10 @@ void Game::HandleEvents()
 			// Return Menu Button
 			if (menuButton->IsClicked())
 			{
+				InGame = true;
 				isMenuVisible = true;
-			}
 
+			}
 
 			if (event.type == SDL_KEYDOWN) {
 				switch (event.key.keysym.sym)
@@ -132,7 +157,7 @@ void Game::HandleEvents()
 				case SDLK_n:
 					GoToNextLevel();
 					break;
-				
+
 				case SDLK_p:
 					GoToPreviousLevel();
 				default:
@@ -152,37 +177,42 @@ void Game::HandleEvents()
 
 void Game::GameLoop() {
 	while (isRunning) {
-	
+
 		HandleSound();
 		HandleEvents();
 		if (isMenuVisible) {
 			// Render the menu Screen
-		
+
 			SDL_SetRenderDrawColor(renderer, NULL, NULL, NULL, NULL);
 			SDL_RenderClear(renderer);
-			menu->Render(); 
+			menu->Render();
+			if (InGame)
+			{
+				menu->RenderResume();
+			}
 			SDL_RenderPresent(renderer);
-
 			// Switch to Game Screen when Start Button is pressed
 			if (menu->IsStartPressed()) {
-				
-				SDL_Delay(500);
+				SDL_Delay(200);
 				menu->SetStartPressed(false);
 
-
-				isMenuVisible = false; 
+				DestroyBoxes();
+				gamelevel->ResetLevel();
+				gamelevel->LoadLevel();
+				InitLevel();
+				InGame = false;
+				isMenuVisible = false;
 			}
 
-
 		}
+
 		else {
 			Update();
 			Render();
-			
-		}
-		
-	}
 
+		}
+
+	}
 }
 
 
@@ -231,10 +261,6 @@ bool Game::BoxUpdated(int moveX, int moveY, int pX, int pY) {
 		if (CanPushBox(boxToPush, toPushX, toPushY)) {
 			bool inGoal = HitGoal(toPushX, toPushY);
 			boxToPush->Update(toPushX, toPushY, inGoal);
-			if (AllGoalsComplete()) {
-				//GoToNextLevel();
-				return false;
-			}
 		}
 		else {
 			return false;
@@ -259,11 +285,18 @@ bool Game::AllGoalsComplete() {
 	return true;
 
 }
+void Game::DestroyBoxes() {
 
+	for (int i = 0; i < boxes.size(); i++)
+	{
+		delete boxes[i];
+	}
+	boxes.erase(boxes.begin(), boxes.end());
+}
 void Game::HandleSound()
 {
-	
-	if (menu->isMuted)
+
+	if (menu->IsMuted())
 	{
 		TurnOffMusic();
 	}
@@ -275,7 +308,7 @@ void Game::HandleSound()
 void Game::TurnOnMusic()
 {
 	Mix_Volume(-1, MIX_MAX_VOLUME);
-		
+
 }
 void Game::TurnOffMusic()
 {
@@ -283,14 +316,7 @@ void Game::TurnOffMusic()
 	Mix_HaltMusic();
 
 }
-void Game::DestroyBoxes() {
 
-	for (int i = 0; i < boxes.size(); i++)
-	{
-		delete boxes[i];
-	}
-	boxes.erase(boxes.begin(), boxes.end());
-}
 
 void Game::InitLevel() {
 	// Reset Player and add new box
@@ -305,6 +331,22 @@ void Game::InitLevel() {
 			}
 		}
 	}
+	timer->start();
+	timeLimit = 300000;
+}
+
+void Game::GoToLevel()
+{
+	
+    cout << "GoToLevel" << menu->LevelNumber()<< endl;
+
+	DestroyBoxes();
+	gamelevel->ResetLevelTo(menu->LevelNumber());
+	gamelevel->LoadLevel();
+
+	InitLevel();
+	
+
 }
 
 
@@ -327,50 +369,73 @@ void Game::GoToPreviousLevel()
 
 	InitLevel();
 
-
 }
-
-
-
-
+void Game::RenderLevelCompletScreen()
+{
+	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, levelclear, NULL, &ScreenDst);
+	SDL_RenderPresent(renderer);
+}
+void Game::RenderAllLevelCompletScreen()
+{
+	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, youWin, NULL, &ScreenDst);
+	SDL_RenderPresent(renderer);
+}
+void Game::RenderYouLoseScreen()
+{
+	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, youWin, NULL, &ScreenDst);
+	SDL_RenderPresent(renderer);
+}
 void Game::Update()
 {
-	
+	Uint32 currentTime = timer->getTicks();
+	int elapsed = timeLimit - currentTime;
+
+	if (elapsed <= 0) {
+		RenderYouLoseScreen();
+		SDL_Delay(2000);
+
+
+		// Reset the Game
+		DestroyBoxes();
+		gamelevel->ResetLevel();
+		InitLevel();
+		isMenuVisible = true;
+
+		return;
+	}
+
 	if (AllGoalsComplete())
 	{
 		if (gamelevel->GetCurrentLevel() < gamelevel->GetTotalLevel())
 		{
 			// Draw the Level clear screen before updating to the next level
-			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
-			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, levelclear, NULL, &ScreenDst);
-			SDL_RenderPresent(renderer);
+			RenderLevelCompletScreen();
 
-			// Sound
-			if (!menu->isMuted) {
+			if (!menu->IsMuted()) {
 				Mix_PlayChannel(-1, nextLevelMeowSound, 0);
 				Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 				Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
 				Mix_PlayMusic(nextLevelSound, 0);
 			}
-
 			// Wait for an additional 1 second before changing to the next level
 			SDL_Delay(1000);
-
 			GoToNextLevel();
 
 		}
 		else
 		{
 			// Draw the Win Screen
-			SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
-			SDL_RenderClear(renderer);
-			SDL_RenderCopy(renderer, youWin, NULL, &ScreenDst);
-			SDL_RenderPresent(renderer);
+			RenderAllLevelCompletScreen();
 
 
 			// Sound 
-			if (!menu->isMuted) {
+			if (!menu->IsMuted()) {
 				Mix_PlayMusic(WinSound, 0);
 				Mix_PlayChannel(-1, nextLevelMeowSound, 0);
 			}
@@ -378,11 +443,12 @@ void Game::Update()
 			//  Wait for an additional 3 second 
 			SDL_Delay(3000);
 
-
 			// reset the game
 			DestroyBoxes();
 			gamelevel->ResetLevel();
+			gamelevel->LoadLevel();
 			InitLevel();
+			InGame = false;
 			isMenuVisible = true;
 		}
 	}
@@ -393,6 +459,7 @@ void Game::Render()
 {
 	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 	SDL_RenderClear(renderer);
+
 
 
 	for (int r = 0; r < TILE_ROWS; r++) {
@@ -409,17 +476,17 @@ void Game::Render()
 				SDL_RenderCopy(renderer, groundTexture, NULL, &rect);
 			}
 
-		    // make box disappear
-			if (DisapearButton->m_isPressed )
+			// make box disappear
+			if (DisapearButton->m_isPressed)
 			{
 				for (int i = 0; i < boxes.size(); i++) {
 					if (gamelevel->levelMap[c][r] == 'g') {
-						SDL_RenderCopy(renderer, goalTexture, NULL,&rect);
+						SDL_RenderCopy(renderer, goalTexture, NULL, &rect);
 					}
 					if (gamelevel->levelMap[c][r] == 'b')
-					SDL_RenderCopy(renderer, groundTexture, NULL,&rect);
+						SDL_RenderCopy(renderer, groundTexture, NULL, &rect);
 				}
-				
+
 			}
 			else {
 				// Draw box
@@ -429,15 +496,39 @@ void Game::Render()
 			}
 		}
 	}
-
 	cat->Draw(renderer);
-		
+
 	menuButton->Render();
 	resetButton->Render();
 	DisapearButton->Render();
-	SDL_RenderPresent(renderer);
-}
+	TimerRender();
 
+	SDL_RenderPresent(renderer);
+
+}
+void Game::TimerRender()
+{
+
+	Uint32 currentTime = timer->getTicks();
+	int seconds = (timeLimit - currentTime) / 1000;
+	int minutes = seconds / 60;
+
+	std::string timeText = "Time Remainning : " + std::to_string(minutes) + ":" + std::to_string(seconds % 60);
+
+	SDL_Color textColor = { 0xF5, 0xDE, 0xB3, 0xFF };
+	SDL_Surface* textSurface = TTF_RenderText_Solid(font, timeText.c_str(), textColor);
+
+	if (textSurface) {
+		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+		if (textTexture) {
+			SDL_Rect textRect = { 220 , 10, 400, 50 };
+			SDL_RenderCopy(renderer, textTexture, nullptr, &textRect);
+			SDL_DestroyTexture(textTexture);
+		}
+		SDL_FreeSurface(textSurface);
+	}
+}
 
 void Game::Shutdown() {
 
@@ -457,6 +548,7 @@ void Game::Shutdown() {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 
+	TTF_Quit();
 	Mix_Quit();
 	IMG_Quit();
 	SDL_Quit();

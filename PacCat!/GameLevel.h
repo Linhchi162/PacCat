@@ -11,6 +11,7 @@ public:
 	void UpdateLevel();
 	void PreviousLevel();
 	void ResetLevel();
+	void ResetLevelTo(int x);
 
 
 	int GetCurrentLevel();

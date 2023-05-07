@@ -27,7 +27,10 @@ void GameLevel::LoadLevel() {
 }
 
 void GameLevel::UpdateLevel() {
+	if (currentLevel < totalLevels)
+	{
 		currentLevel++;
+	}
 }
 
 void GameLevel::PreviousLevel()
@@ -40,6 +43,10 @@ void GameLevel::PreviousLevel()
 
 void GameLevel::ResetLevel() {
 	currentLevel = 1;
+}
+
+void GameLevel::ResetLevelTo(int x) {
+	currentLevel = x;
 	LoadLevel();
 }
 
