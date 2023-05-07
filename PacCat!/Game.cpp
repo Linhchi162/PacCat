@@ -44,8 +44,6 @@ bool Game::Init()
 	resetButton = new Button(renderer, resetButtonTexture, resetButtonRect);
 	menuButton = new Button(renderer, menuButtonTexture, menuButtonRect);
 	DisapearButton = new Button(renderer, DisappearButtonTexture, DisappearButtonRect);
-	//resumeButton = new Button(renderer, ResumeButtonTexture, DisappearButtonRect);
-
 
 
 	gamelevel = new GameLevel();
@@ -53,7 +51,6 @@ bool Game::Init()
 	menu = new Menu(renderer);
 	cat = new Cat(this, renderer);
 	timer = new Timer();
-	//lvs = new LevelSelection(renderer);
 
 	timer->start();
 	timeLimit = 300000;
@@ -196,10 +193,8 @@ void Game::GameLoop() {
 				SDL_Delay(200);
 				menu->SetStartPressed(false);
 
-				DestroyBoxes();
-				gamelevel->ResetLevel();
-				gamelevel->LoadLevel();
-				InitLevel();
+				ResetGame();
+
 				InGame = false;
 				isMenuVisible = false;
 			}
@@ -337,8 +332,6 @@ void Game::InitLevel() {
 
 void Game::GoToLevel()
 {
-	
-    cout << "GoToLevel" << menu->LevelNumber()<< endl;
 
 	DestroyBoxes();
 	gamelevel->ResetLevelTo(menu->LevelNumber());
@@ -353,7 +346,6 @@ void Game::GoToLevel()
 void Game::GoToNextLevel() {
 	DestroyBoxes();
 
-	// Go to next level
 	gamelevel->UpdateLevel();
 	gamelevel->LoadLevel();
 
@@ -369,6 +361,13 @@ void Game::GoToPreviousLevel()
 
 	InitLevel();
 
+}
+void Game::ResetGame()
+{
+	DestroyBoxes();
+	gamelevel->ResetLevel();
+	gamelevel->LoadLevel();
+	InitLevel();
 }
 void Game::RenderLevelCompletScreen()
 {
@@ -401,10 +400,8 @@ void Game::Update()
 		SDL_Delay(2000);
 
 
-		// Reset the Game
-		DestroyBoxes();
-		gamelevel->ResetLevel();
-		InitLevel();
+		ResetGame();
+
 		isMenuVisible = true;
 
 		return;
@@ -444,10 +441,8 @@ void Game::Update()
 			SDL_Delay(3000);
 
 			// reset the game
-			DestroyBoxes();
-			gamelevel->ResetLevel();
-			gamelevel->LoadLevel();
-			InitLevel();
+			ResetGame();
+			
 			InGame = false;
 			isMenuVisible = true;
 		}
@@ -476,7 +471,7 @@ void Game::Render()
 				SDL_RenderCopy(renderer, groundTexture, NULL, &rect);
 			}
 
-			// make box disappear
+			// make box disappear if Disappear Button is pressed
 			if (DisapearButton->m_isPressed)
 			{
 				for (int i = 0; i < boxes.size(); i++) {
@@ -501,6 +496,7 @@ void Game::Render()
 	menuButton->Render();
 	resetButton->Render();
 	DisapearButton->Render();
+
 	TimerRender();
 
 	SDL_RenderPresent(renderer);
@@ -540,6 +536,10 @@ void Game::Shutdown() {
 	SDL_DestroyTexture(resetButtonTexture);
 	SDL_DestroyTexture(youWin);
 	SDL_DestroyTexture(levelclear);
+	SDL_DestroyTexture(DisappearButtonTexture);
+	SDL_DestroyTexture(menuButtonTexture);
+	SDL_DestroyTexture(resetButtonTexture);
+
 
 	Mix_FreeChunk(nextLevelMeowSound);
 	Mix_FreeMusic(nextLevelSound);

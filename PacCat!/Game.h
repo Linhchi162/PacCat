@@ -48,11 +48,14 @@ private:
 	bool HitGoal(int x, int y);
 	bool AllGoalsComplete();
 	void DestroyBoxes();
+
 	void InitLevel();
 
 	void GoToLevel();
 	void GoToNextLevel();
 	void GoToPreviousLevel();
+	void ResetGame();
+
 	bool CanPushBox(Box* box, int x, int y);
 
 	SDL_Window* window = nullptr;

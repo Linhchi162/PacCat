@@ -31,6 +31,7 @@ private:
     SDL_Texture* buttonTexture;
     SDL_Rect buttonRect;
     Button* buttons[NUM_LEVELS];
+    TTF_Font* font;
 
     bool quit = false;
     int levelNumber = 0;
