@@ -1,4 +1,4 @@
-### PacCat_SDL2_Game
+# PacCat_SDL2_Game
 - Trần Linh Chi
 - MSV: 22026564
 ## Giới thiệu 
