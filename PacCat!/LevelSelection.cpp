@@ -3,7 +3,7 @@
 
 LevelSelection::LevelSelection(SDL_Renderer* renderer) : renderer(renderer) {
     // Load resources
-    backgroundTexture = IMG_LoadTexture(renderer, "./assets/Background.png");
+    backgroundTexture = IMG_LoadTexture(renderer, "./assets/BlankBackground.png");
     backgroundRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
     buttonTexture = IMG_LoadTexture(renderer, "./assets/LevelSelectButton.png");
     // Load Font

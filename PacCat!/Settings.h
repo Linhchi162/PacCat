@@ -12,7 +12,7 @@ const int TILE_ROWS = 10;
 const int TILE_COLS = 10;
 const int SCREEN_WIDTH = TILE_SIZE * TILE_COLS;
 const int SCREEN_HEIGHT = TILE_SIZE * TILE_ROWS;
-const SDL_Rect ScreenDst = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
 
 
 

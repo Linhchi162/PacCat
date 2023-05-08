@@ -94,7 +94,7 @@ void Menu::ShowHelpScreen()
                 return;
             }
         }
-        SDL_RenderCopy(mrenderer, helpScreenTexture, NULL, &ScreenDst);
+        SDL_RenderCopy(mrenderer, helpScreenTexture, NULL, NULL);
         SDL_RenderPresent(mrenderer);
     }
 
@@ -163,7 +163,7 @@ void Menu::Render() {
    
 
     // Render background 
-        SDL_RenderCopy(mrenderer, backgroundTexture, NULL, &ScreenDst);
+        SDL_RenderCopy(mrenderer, backgroundTexture, NULL, NULL);
 
     if (!isLevelScreenVisible ) {
         startButton->Render();
@@ -188,6 +188,7 @@ bool Menu::HandleEvent(SDL_Event* event) {
         {
             if (startButton->IsClicked()) {
                 SetStartPressed(true);
+
                 return true;  // Start game
 
             }

@@ -31,54 +31,62 @@ public:
 
 private:
 
-	void HandleSound();
-
+	
 	void LoadResources();
-	void TurnOffMusic();
-	void TurnOnMusic();
+	
 	void HandleEvents();
 	void Update();
 	void Render();
 
 
-	void RenderLevelCompletScreen();
-	void RenderAllLevelCompletScreen();
-	void RenderYouLoseScreen();
-	void TimerRender();
-	bool HitGoal(int x, int y);
-	bool AllGoalsComplete();
-	void DestroyBoxes();
+	void HandleSound();
+	void TurnOffMusic();
+	void TurnOnMusic();
 
+	void ResetTime();
+
+	void ResetLevel();
 	void InitLevel();
-
 	void GoToLevel();
 	void GoToNextLevel();
 	void GoToPreviousLevel();
+
+	void RenderLevelCompletScreen();
+	void RenderAllLevelCompletScreen();
+	void RenderYouLoseScreen();
+
+	void TimerRender();
+
+	bool HitGoal(int x, int y);
+	bool AllGoalsComplete();
+	void DestroyBoxes();
+	bool CanPushBox(Box* box, int x, int y);
+
+	
 	void ResetGame();
 
-	bool CanPushBox(Box* box, int x, int y);
+	
 
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
 
 	bool isMenuVisible = true;
 	bool isRunning = true;
-	bool allGoalsComplete = false;
 	bool InGame = false; // for Resume Button;
 
 	//-----------------Button--------------------//
 	SDL_Texture* resetButtonTexture = nullptr;
-	SDL_Texture* menuButtonTexture = nullptr;
+	SDL_Texture* StopButtonTexture = nullptr;
 	SDL_Texture* DisappearButtonTexture = nullptr;
 
 	SDL_Rect resetButtonRect = { 5, 10, 64, 64 };
-	SDL_Rect menuButtonRect = { 5, 90, 64, 64 };
+	SDL_Rect StopButtonRect = { 5, 90, 64, 64 };
 	SDL_Rect DisappearButtonRect = { 5,170, 64, 64 };
 	
 
 
 	class Button* resetButton;
-	class Button* menuButton;
+	class Button* StopButton;
 	class Button* DisapearButton;
 
 
@@ -97,6 +105,7 @@ private:
 	//-----------------Screen--------------------//
 	SDL_Texture* youWin = nullptr;
 	SDL_Texture* levelclear = nullptr;
+	SDL_Texture* GameOver = nullptr;
 
 
 
@@ -104,6 +113,7 @@ private:
 	const char* NEXT_LEVEL_MEOW_PATH = "./Sound/nextLevelmeow.wav";
 	const char* NEXT_LEVEL_PATH = "./Sound/nextLevel.wav";
 	const char* WIN_SOUND_PATH = "./Sound/Win.wav";
+	const char* LOSE_SOUND_PATH = "./Sound/Lose.wav";
 
 
 
@@ -112,11 +122,11 @@ private:
 	Mix_Chunk* nextLevelMeowSound = nullptr;
 	Mix_Music* nextLevelSound = nullptr;
 	Mix_Music* WinSound = nullptr;
+	Mix_Music* LoseSound = nullptr;
 
 
 
 
-	//class LevelSelection* lvs;
 
 	TTF_Font* font = nullptr;
 

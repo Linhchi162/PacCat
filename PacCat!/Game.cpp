@@ -42,18 +42,19 @@ bool Game::Init()
 	LoadResources();
 
 	resetButton = new Button(renderer, resetButtonTexture, resetButtonRect);
-	menuButton = new Button(renderer, menuButtonTexture, menuButtonRect);
+	StopButton = new Button(renderer, StopButtonTexture, StopButtonRect);
 	DisapearButton = new Button(renderer, DisappearButtonTexture, DisappearButtonRect);
 
 
 	gamelevel = new GameLevel();
 	gamelevel->LoadLevel();
-	menu = new Menu(renderer);
-	cat = new Cat(this, renderer);
-	timer = new Timer();
 
-	timer->start();
-	timeLimit = 300000;
+
+	menu = new Menu(renderer);
+
+	cat = new Cat(this, renderer);
+
+	timer = new Timer();
 
 
 	InitLevel();
@@ -72,8 +73,8 @@ void Game::LoadResources() {
 
 	// Load Button
 	resetButtonTexture = LoadTexture("./assets/Replay.png", renderer);
-	menuButtonTexture = LoadTexture("./assets/Home.png", renderer);
-	DisappearButtonTexture = LoadTexture("./assets/Home.png", renderer);
+	StopButtonTexture = LoadTexture("./assets/Stop.png", renderer);
+	DisappearButtonTexture = LoadTexture("./assets/Disappear.png", renderer);
 
 	//Load font
 	font = TTF_OpenFont("./assets/Daydream.ttf", 40);
@@ -82,11 +83,13 @@ void Game::LoadResources() {
 	//LoadScreen
 	youWin = LoadTexture("./assets/Win.png", renderer);
 	levelclear = LoadTexture("./assets/levelClear.png", renderer);
+	GameOver = LoadTexture("./assets/GameOver.png", renderer);
 
 	// Load sounds
 	nextLevelSound = Mix_LoadMUS(NEXT_LEVEL_PATH);
 	nextLevelMeowSound = Mix_LoadWAV(NEXT_LEVEL_MEOW_PATH);
 	WinSound = Mix_LoadMUS(WIN_SOUND_PATH);
+	LoseSound = Mix_LoadMUS(LOSE_SOUND_PATH);
 	
 }
 
@@ -102,16 +105,14 @@ void Game::HandleEvents()
 		// When menu screen is visible
 		if (isMenuVisible) {
 			menu->HandleEvent(&event);
+
 			if (menu->IsLevelScreenVisible())
 			{
-				
-				isMenuVisible = true;
 				if (menu->IsLevelChoosed()) {
 					GoToLevel();
 					menu->SetLevelScreen(false);
 					isMenuVisible = false;	
 				}
-				
 				
 			}
 	
@@ -119,18 +120,21 @@ void Game::HandleEvents()
 			{
 				menu->SetResumeClicked(false);
 				SDL_Delay(200);
+				timer->resume();
 				isMenuVisible = false;
 			}
 		}
 		else {
 			// Reset Button
 			if (resetButton->IsClicked()) {
-				DestroyBoxes();
-				InitLevel();
+
+				ResetLevel();
+
 			}
 			// Return Menu Button
-			if (menuButton->IsClicked())
-			{
+			if (StopButton->IsClicked())
+			{ 
+				timer->pause();
 				InGame = true;
 				isMenuVisible = true;
 
@@ -151,10 +155,11 @@ void Game::HandleEvents()
 				case SDLK_UP:
 					cat->Move(0, -1);
 					break;
-				case SDLK_n:
+				/*
+				  case SDLK_n:
 					GoToNextLevel();
 					break;
-
+					*/
 				case SDLK_p:
 					GoToPreviousLevel();
 				default:
@@ -177,35 +182,9 @@ void Game::GameLoop() {
 
 		HandleSound();
 		HandleEvents();
-		if (isMenuVisible) {
-			// Render the menu Screen
-
-			SDL_SetRenderDrawColor(renderer, NULL, NULL, NULL, NULL);
-			SDL_RenderClear(renderer);
-			menu->Render();
-			if (InGame)
-			{
-				menu->RenderResume();
-			}
-			SDL_RenderPresent(renderer);
-			// Switch to Game Screen when Start Button is pressed
-			if (menu->IsStartPressed()) {
-				SDL_Delay(200);
-				menu->SetStartPressed(false);
-
-				ResetGame();
-
-				InGame = false;
-				isMenuVisible = false;
-			}
-
-		}
-
-		else {
-			Update();
-			Render();
-
-		}
+		
+		Update();
+		Render();
 
 	}
 }
@@ -311,7 +290,27 @@ void Game::TurnOffMusic()
 	Mix_HaltMusic();
 
 }
+void Game::ResetLevel()
+{
+	DestroyBoxes();
+	for (int r = 0; r < TILE_ROWS; r++) {
+		for (int c = 0; c < TILE_COLS; c++) {
+			if (gamelevel->levelMap[c][r] == 'p') {
+				cat->Reset(c, r);
+			}
+			else if (gamelevel->levelMap[c][r] == 'b') {
+				boxes.emplace_back(new Box(c, r));
+			}
+		}
+	}
 
+}
+
+void Game::ResetTime()
+{
+	timer->start();
+	timeLimit = 300000; // 5 minute
+}
 
 void Game::InitLevel() {
 	// Reset Player and add new box
@@ -326,14 +325,14 @@ void Game::InitLevel() {
 			}
 		}
 	}
-	timer->start();
-	timeLimit = 300000;
+	ResetTime(); 
 }
 
 void Game::GoToLevel()
 {
 
 	DestroyBoxes();
+
 	gamelevel->ResetLevelTo(menu->LevelNumber());
 	gamelevel->LoadLevel();
 
@@ -348,7 +347,6 @@ void Game::GoToNextLevel() {
 
 	gamelevel->UpdateLevel();
 	gamelevel->LoadLevel();
-
 	InitLevel();
 }
 
@@ -356,15 +354,16 @@ void Game::GoToNextLevel() {
 void Game::GoToPreviousLevel()
 {
 	DestroyBoxes();
+
 	gamelevel->PreviousLevel();
 	gamelevel->LoadLevel();
-
 	InitLevel();
 
 }
 void Game::ResetGame()
 {
 	DestroyBoxes();
+
 	gamelevel->ResetLevel();
 	gamelevel->LoadLevel();
 	InitLevel();
@@ -373,21 +372,21 @@ void Game::RenderLevelCompletScreen()
 {
 	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, levelclear, NULL, &ScreenDst);
+	SDL_RenderCopy(renderer, levelclear, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 void Game::RenderAllLevelCompletScreen()
 {
 	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, youWin, NULL, &ScreenDst);
+	SDL_RenderCopy(renderer, youWin, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 void Game::RenderYouLoseScreen()
 {
 	SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
 	SDL_RenderClear(renderer);
-	SDL_RenderCopy(renderer, youWin, NULL, &ScreenDst);
+	SDL_RenderCopy(renderer, GameOver, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 void Game::Update()
@@ -397,11 +396,21 @@ void Game::Update()
 
 	if (elapsed <= 0) {
 		RenderYouLoseScreen();
+
+
+		if (!menu->IsMuted()) {
+			Mix_PlayChannel(-1, nextLevelMeowSound, 0);
+			Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
+			Mix_PlayMusic(LoseSound, 0);
+		}
+
+		// Show You Lose Screen for 2 \s
 		SDL_Delay(2000);
 
 
 		ResetGame();
 
+		// Return To Menu
 		isMenuVisible = true;
 
 		return;
@@ -409,22 +418,26 @@ void Game::Update()
 
 	if (AllGoalsComplete())
 	{
+		// Every time you finish a level
 		if (gamelevel->GetCurrentLevel() < gamelevel->GetTotalLevel())
 		{
 			// Draw the Level clear screen before updating to the next level
 			RenderLevelCompletScreen();
 
+
+			// Sound
 			if (!menu->IsMuted()) {
 				Mix_PlayChannel(-1, nextLevelMeowSound, 0);
-				Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 				Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
 				Mix_PlayMusic(nextLevelSound, 0);
 			}
+
 			// Wait for an additional 1 second before changing to the next level
 			SDL_Delay(1000);
 			GoToNextLevel();
 
 		}
+		// When you Finish all Level
 		else
 		{
 			// Draw the Win Screen
@@ -443,7 +456,10 @@ void Game::Update()
 			// reset the game
 			ResetGame();
 			
+			// Disabling the Resume Button
 			InGame = false;
+
+			// Return To Menu
 			isMenuVisible = true;
 		}
 	}
@@ -456,7 +472,7 @@ void Game::Render()
 	SDL_RenderClear(renderer);
 
 
-
+	// Render Map
 	for (int r = 0; r < TILE_ROWS; r++) {
 		for (int c = 0; c < TILE_COLS; c++) {
 			SDL_Rect rect = { c * TILE_SIZE, r * TILE_SIZE, TILE_SIZE, TILE_SIZE };
@@ -491,13 +507,43 @@ void Game::Render()
 			}
 		}
 	}
+
 	cat->Draw(renderer);
 
-	menuButton->Render();
+	StopButton->Render();
 	resetButton->Render();
 	DisapearButton->Render();
 
 	TimerRender();
+
+	if (isMenuVisible) {
+		// Render the menu Screen
+
+		SDL_SetRenderDrawColor(renderer, NULL, NULL, NULL, NULL);
+		SDL_RenderClear(renderer);
+		menu->Render();
+		if (InGame)
+		{
+			menu->RenderResume();
+		}
+		SDL_RenderPresent(renderer);
+
+		// Switch to Game Screen when Start Button is pressed
+
+		if (menu->IsStartPressed()) {
+
+			SDL_Delay(200);
+
+			menu->SetStartPressed(false); // for Button effect
+
+			ResetGame();
+
+			InGame = false;  //  Disabling the Resume Button
+
+			isMenuVisible = false;
+		}
+
+	}
 
 	SDL_RenderPresent(renderer);
 
@@ -537,7 +583,7 @@ void Game::Shutdown() {
 	SDL_DestroyTexture(youWin);
 	SDL_DestroyTexture(levelclear);
 	SDL_DestroyTexture(DisappearButtonTexture);
-	SDL_DestroyTexture(menuButtonTexture);
+	SDL_DestroyTexture(StopButtonTexture);
 	SDL_DestroyTexture(resetButtonTexture);
 
 
