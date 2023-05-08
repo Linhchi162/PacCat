@@ -9,7 +9,7 @@
 - mở PacCat!.exe
 ## Hướng dẫn chơi 
 1. Sử dụng các phím mũi tên lên, xuống, trái, phải để di chuyển chú mèo.
-2. Đẩy các hộp vào ô đích !Goal(.assets/Icon.png) để hoàn thành màn chơi và tiến đến màn tiếp theo.
+2. Đẩy các hộp vào ô đích ![Goal](.assets/Icon.png) để hoàn thành màn chơi và tiến đến màn tiếp theo.
 3. Tránh Đẩy hai hộp dính với nhau hoặc đẩy hộp vào một góc.
 4. Game có tổng cộng 10 màn chơi, mỗi màn chơi kéo dài 5 phút, nếu chưa hoàn thành màn chơi trong vòng 5 phút thì người chơi sẽ thua và phải chơi lại từ đầu.
 5. Kết thúc cả 10 màn chơi thì Pac sẽ được giải thoát khỏi mê cung.
