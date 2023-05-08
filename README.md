@@ -43,7 +43,7 @@ Màn hình hướng dẫn :
 ![image](https://user-images.githubusercontent.com/124993115/236935180-b4af977b-7ea0-42fc-83d8-a3fc207cadc2.png)
 
 
-### Các hướng cải thiện tiếp theo 
+### Các hướng phát triển về sau 
 1. Cải thiện đồ họa của trò chơi.
 2. Thêm nhiều màn chơi và thử thách hơn.
 3. Tạo thêm chế độ 2 người chơi.
