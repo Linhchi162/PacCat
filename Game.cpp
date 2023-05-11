@@ -91,9 +91,6 @@ void Game::LoadResources() {
 	nextLevelSound = Mix_LoadMUS(NEXT_LEVEL_PATH);
 	nextLevelMeowSound = Mix_LoadWAV(NEXT_LEVEL_MEOW_PATH);
 	WinSound = Mix_LoadMUS(WIN_SOUND_PATH);
-	LoseSound = Mix_LoadMUS(LOSE_SOUND_PATH);
-	
-	
 }
 
 void Game::HandleEvents()
@@ -313,7 +310,7 @@ void Game::ResetLevel()
 void Game::ResetTime()
 {
 	timer->start();
-	timeLimit = 300000; // 5 minute
+	timeLimit = 30000; // 5 minute
 }
 
 void Game::InitLevel() {
@@ -342,7 +339,6 @@ void Game::GoToLevel()
 
 	InitLevel();
 	
-
 }
 
 
@@ -400,18 +396,8 @@ void Game::Update()
 
 	if (elapsed <= 0) {
 		RenderYouLoseScreen();
-
-
-		if (!menu->IsMuted()) {
-			Mix_PlayChannel(-1, nextLevelMeowSound, 0);
-			Mix_VolumeChunk(nextLevelMeowSound, MIX_MAX_VOLUME * 3);
-			Mix_PlayMusic(LoseSound, 0);
-		}
-
 		// Show You Lose Screen for 2 \s
 		SDL_Delay(2000);
-
-
 		ResetGame();
 
 		// Return To Menu
@@ -459,7 +445,6 @@ void Game::Update()
 
 			// reset the game
 			ResetGame();
-			
 			// Disabling the Resume Button
 			InGame = false;
 

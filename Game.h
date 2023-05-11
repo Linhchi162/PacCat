@@ -114,7 +114,6 @@ private:
 	const char* NEXT_LEVEL_MEOW_PATH = "./Sound/nextLevelmeow.wav";
 	const char* NEXT_LEVEL_PATH = "./Sound/nextLevel.wav";
 	const char* WIN_SOUND_PATH = "./Sound/Win.wav";
-	const char* LOSE_SOUND_PATH = "./Sound/Lose.wav";
 	
 
 
@@ -124,7 +123,6 @@ private:
 	Mix_Chunk* nextLevelMeowSound = nullptr;
 	Mix_Music* nextLevelSound = nullptr;
 	Mix_Music* WinSound = nullptr;
-	Mix_Music* LoseSound = nullptr;
 	
 
 
