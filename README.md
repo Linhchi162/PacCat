@@ -7,8 +7,9 @@
 - PacCat là một trò chơi giải đố được phát triển bằng ngôn ngữ C++ và thư viện SDL2, lấy cảm hứng từ trò chơi Sokoban. Trong trò chơi, người chơi sẽ nhập vai vào một chú mèo tên Pac và điều khiển nó đẩy các hộp vào các ô đích để hoàn thành màn chơi. Trò chơi có độ khó tăng dần khi tiến đến các màn chơi mới và người chơi cần suy nghĩ để đưa ra các chiến lược để hoàn thành các màn chơi.
 
 ### Lý do chọn game
+-Mình chọn Sokoban vì nó là trò chơi vừa đủ khó để mình phải vắt óc suy nghĩ, nhưng không quá khó để mình phải bỏ cuộc, đơn giản nhưng hấp dẫn. Nó giúp cho mình học cách sử dụng C++ và SDL2 để xử lý các khía cạnh cơ bản của một trò chơi như vòng lặp chính, xử lý sự kiện, hiển thị đồ họa và di chuyển các đối tượng.
 
-### Cách chạy chương trình:
+### Cách chạy chương trình
 - Tải file zip về và giải nén
 - mở PacCat!.exe
 
