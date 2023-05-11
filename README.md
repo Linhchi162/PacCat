@@ -26,7 +26,7 @@
 + Button để bật tắt âm thanh.
 + Button để vào màn hình chọn level.
 + Button để xem hướng dẫn chơi game.
- Và các button đều có boucing effect.
+ --> Và các button đều có boucing effect.
 
 ![image](https://user-images.githubusercontent.com/124993115/236934866-027229a8-d01a-484f-a413-294f02ad77ad.png)
 
