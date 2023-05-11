@@ -310,7 +310,7 @@ void Game::ResetLevel()
 void Game::ResetTime()
 {
 	timer->start();
-	timeLimit = 30000; // 5 minute
+	timeLimit = 300000; // 5 minute
 }
 
 void Game::InitLevel() {
