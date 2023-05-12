@@ -19,6 +19,9 @@
 3. Tránh đẩy hai hộp dính liền với nhau hoặc đẩy hộp vào một góc.
 4. Game có tổng cộng 10 màn chơi, mỗi màn chơi kéo dài 5 phút, nếu chưa hoàn thành màn chơi trong vòng 5 phút thì người chơi sẽ thua và phải chơi lại từ đầu.
 5. Kết thúc cả 10 màn chơi thì Pac sẽ được giải thoát khỏi mê cung.
+### Preview
+
+![](https://github.com/Linhchi162/ImageForPacCat/blob/main/Preview2.gif?raw=true)
 
 ### Các chức năng 
 -Trong màn hình menu bao gồm :
@@ -27,32 +30,11 @@
 + Button để vào màn hình chọn level.
 + Button để xem hướng dẫn chơi game.
 
-       các button đều có boucing effect.
-
-![image](https://user-images.githubusercontent.com/124993115/236934866-027229a8-d01a-484f-a413-294f02ad77ad.png)
-
 -Trong màn hình game bao gồm :
 + Một bộ đếm thời gian
 + Button để đặt lại vị trí các hộp và vị trí người chơi.
 + Button để tạm dừng level, hiện màn hình menu.
 + Button để làm cho các hộp biến mất, để có thể dễ dàng quan sát màn chơi hơn.
-
-
-![image](https://user-images.githubusercontent.com/124993115/236934926-daee3cc8-9701-4a7a-af65-52ac7c5ebcd1.png)
-
--Một số hình ảnh khác của game:
-
-Màn hình chọn level:
-
-![image](https://user-images.githubusercontent.com/124993115/236935046-4a7d3190-d561-4af4-a7d0-7cffd9eaf04a.png)
-
-Màn hình hướng dẫn :
-
-![image](https://user-images.githubusercontent.com/124993115/236936101-67a3b49e-9a07-4ba3-b04d-bc4899abc074.png)
-
-![image](https://user-images.githubusercontent.com/124993115/236935152-f29bd951-ec35-4e67-8f43-2d3441801b0f.png)
-
-![image](https://user-images.githubusercontent.com/124993115/236935180-b4af977b-7ea0-42fc-83d8-a3fc207cadc2.png)
 
 
 ### Các hướng phát triển về sau 
