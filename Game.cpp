@@ -10,10 +10,13 @@ Game::~Game()
 
 bool Game::Init()
 {
-	TTF_Init();
+	if (TTF_Init() < 0) {
+		cout<<"SDL_ttf could not initialize! SDL_ttf Error:" << TTF_GetError()<<endl;
+		return false;
+	}
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+		cout<<"SDL_mixer could not initialize! SDL_mixer Error:"<< Mix_GetError()<<endl;
 		return false;
 	}
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
