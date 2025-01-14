@@ -49,6 +49,6 @@
 
 ### Source
 - Âm thanh được lấy từ mixkit.
-- Hình ảnh mình tự design, riêng hình ảnh khi hoàn thành hết tất cả các level được lấy từ [Pinterest](https://www.pinterest.com/pin/19351473391917464/)
+- Hình ảnh tự design, riêng hình ảnh khi hoàn thành hết tất cả các level được lấy từ [Pinterest](https://www.pinterest.com/pin/19351473391917464/)
 - Font được lấy từ Dafont.
 - Các level được tạo ra dựa trên Sokoban Online
